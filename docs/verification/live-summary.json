@@ -1,0 +1,23 @@
+{
+  "totalAds": 0,
+  "adapterUsed": null,
+  "failedQueries": [
+    {
+      "queryKey": null,
+      "advertiser": null,
+      "countries": [
+        "FR"
+      ],
+      "chunk": [
+        "2026-09-01",
+        "2026-10-01"
+      ],
+      "errorClass": "NO_WORKING_SOURCE",
+      "reason": "Neither anonymous UI nor a permitted export source is available. Supply xBearerToken and numeric advertiser IDs for export, or retry public access later.",
+      "retryable": false
+    }
+  ],
+  "schemaDriftWarnings": [],
+  "status": "failed",
+  "runDurationSeconds": 36.507
+}

@@ -1,0 +1,71 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> x-twitter-ads-scraper@1.0.0 check
+> npm run typecheck && npm run lint && npm test && npm run test:e2e && APIFY_CLI_DISABLE_TELEMETRY=1 apify validate-schema
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> x-twitter-ads-scraper@1.0.0 typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> x-twitter-ads-scraper@1.0.0 lint
+> eslint src test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> x-twitter-ads-scraper@1.0.0 test
+> vitest run --exclude test/e2e.test.ts --exclude test/live.test.ts
+
+
+ RUN  v3.2.7 /workspace/scratch/a81e173bed42/x-twitter-ads-scraper
+
+ ✓ test/filters-monitor.test.ts (8 tests) 75ms
+stdout | test/outputs.test.ts > metering respects budget and never charges the same saved row twice
+[32mINFO[39m  Saved ads charged.[90m {"requested":1,"charged":1,"eventChargeLimitReached":true}[39m
+
+ ✓ test/outputs.test.ts (4 tests) 153ms
+ ✓ test/core.test.ts (11 tests) 1103ms
+   ✓ CSV and normalization > parses empty and huge streams without collecting rows  1058ms
+
+ Test Files  3 passed (3)
+      Tests  23 passed (23)
+   Start at  16:59:19
+   Duration  1.76s (transform 267ms, setup 0ms, collect 1.24s, tests 1.33s, environment 0ms, prepare 186ms)
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> x-twitter-ads-scraper@1.0.0 test:e2e
+> vitest run test/e2e.test.ts
+
+
+ RUN  v3.2.7 /workspace/scratch/a81e173bed42/x-twitter-ads-scraper
+
+ ✓ test/e2e.test.ts (2 tests) 73907ms
+   ✓ runs through apify run with mocked HTTP and resumes without duplicate rows or jobs  20887ms
+   ✓ demonstrates persistent monitor runs: new, unchanged, changed and grace-period removal  53019ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  16:59:22
+   Duration  74.25s (transform 75ms, setup 0ms, collect 135ms, tests 73.91s, environment 0ms, prepare 49ms)
+
+Info: Validating input schema at /workspace/scratch/a81e173bed42/x-twitter-ads-scraper/.actor/input_schema.json
+Success: Input schema is valid.
+Info: Validating Dataset schema at /workspace/scratch/a81e173bed42/x-twitter-ads-scraper/.actor/dataset_schema.json
+Success: Dataset schema is valid.
+Info: Validating Output schema at /workspace/scratch/a81e173bed42/x-twitter-ads-scraper/.actor/output_schema.json
+Success: Output schema is valid.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> x-twitter-ads-scraper@1.0.0 build
+> tsc -p tsconfig.build.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> x-twitter-ads-scraper@1.0.0 demo
+> node --import tsx scripts/demo.ts
+
+Generated four synthetic exports and monitor lifecycle in artifacts/
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

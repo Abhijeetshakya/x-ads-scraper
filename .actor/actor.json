@@ -1,0 +1,18 @@
+{
+  "actorSpecification": 1,
+  "name": "x-twitter-ads-scraper",
+  "title": "X (Twitter) Ads Scraper & Competitor Monitor",
+  "description": "Extract publicly disclosed EU-served X ads, compare advertisers and countries, monitor material campaign changes, and export audit-friendly reports.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "defaultMemoryMbytes": 1024,
+  "minMemoryMbytes": 512,
+  "maxMemoryMbytes": 8192,
+  "dockerfile": "./Dockerfile",
+  "readme": "../README.md",
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}

@@ -1,0 +1,766 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "type": "object",
+    "properties": {
+      "adKey": {
+        "type": "string",
+        "description": "SHA-1 of advertiser user ID, tweet ID, line-item ID and served country."
+      },
+      "adId": {
+        "type": "string",
+        "description": "Repository ad identifier, or the tweet ID when no ad identifier is disclosed."
+      },
+      "adIdSource": {
+        "type": "string",
+        "description": "repository or tweet_id_fallback."
+      },
+      "tweetId": {
+        "type": "string",
+        "description": "Post ID preserved exactly as a string, never floating point."
+      },
+      "lineItemId": {
+        "type": "string",
+        "description": "Disclosed advertising line-item ID."
+      },
+      "accountId": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Disclosed advertising account ID; not necessarily the public user ID."
+      },
+      "adName": {
+        "type": "string",
+        "description": "Derived name, never represented as a disclosed X campaign title."
+      },
+      "adNameSource": {
+        "type": "string",
+        "description": "Name derivation: UTM campaign/content, creative headline, or identity."
+      },
+      "adUrl": {
+        "type": "string",
+        "description": "Public post link."
+      },
+      "adCreatedAt": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "UTC post creation from Snowflake arithmetic, not campaign delivery start."
+      },
+      "adCreatedAtSource": {
+        "type": "string",
+        "description": "derived_tweet_snowflake or invalid_or_pre_snowflake_id."
+      },
+      "deliveryStart": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Disclosed delivery start, otherwise null; query window is not substituted."
+      },
+      "deliveryStartSource": {
+        "type": "string",
+        "description": "Provenance for deliveryStart."
+      },
+      "deliveryEnd": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Disclosed delivery end, otherwise null."
+      },
+      "deliveryEndSource": {
+        "type": "string",
+        "description": "Provenance for deliveryEnd."
+      },
+      "daysActiveSource": {
+        "type": "string",
+        "description": "Actual disclosed-date derivation or reason duration cannot be inferred."
+      },
+      "firstSeenAt": {
+        "type": "string",
+        "description": "First observed timestamp; monitor state retains it across runs."
+      },
+      "lastSeenAt": {
+        "type": "string",
+        "description": "Last observed timestamp, not the removal report timestamp."
+      },
+      "scrapedAt": {
+        "type": "string",
+        "description": "UTC observation/run timestamp."
+      },
+      "country": {
+        "type": "string",
+        "description": "ISO alpha-2 country where this ad was served."
+      },
+      "countryName": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "ISO regional display name."
+      },
+      "countryNameSource": {
+        "type": "string",
+        "description": "ISO/Intl derived country name or unknown."
+      },
+      "targetedLocationsStatus": {
+        "type": "string",
+        "description": "Whether geo-targeting was actually disclosed."
+      },
+      "targetingStatus": {
+        "type": "string",
+        "description": "Whether targeting was actually disclosed."
+      },
+      "targetingSummary": {
+        "type": "string",
+        "description": "Human-readable targeting string suitable for CSV."
+      },
+      "impressionsStatus": {
+        "type": "string",
+        "description": "Repository count or aggregation/unknown reason."
+      },
+      "reachStatus": {
+        "type": "string",
+        "description": "Repository reach or non-additive multi-chunk reason."
+      },
+      "fundingStatus": {
+        "type": "string",
+        "description": "Disclosed funding coverage; missing nested fields carry availability reasons."
+      },
+      "approvalStatus": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Source approval status preserved as disclosed."
+      },
+      "approvalStatusSource": {
+        "type": "string",
+        "description": "Repository or not_disclosed."
+      },
+      "isHaltedSource": {
+        "type": "string",
+        "description": "Explicit repository flag/status or reason unavailable."
+      },
+      "changeStatus": {
+        "type": "string",
+        "description": "NEW, CHANGED, UNCHANGED or REMOVED."
+      },
+      "schemaVersion": {
+        "type": "string",
+        "description": "Version of normalized output contract."
+      },
+      "daysActive": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "description": "Active days from disclosed delivery dates; unknown continuity is null."
+      },
+      "impressions": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "description": "Observed impressions; may be summed only over disjoint queried date chunks."
+      },
+      "reach": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "description": "Unique reach. Never summed across countries/chunks as if globally deduplicated."
+      },
+      "impressionsLower": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "description": "Disclosed lower impression bound."
+      },
+      "impressionsUpper": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "description": "Disclosed upper impression bound."
+      },
+      "reachLower": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "description": "Disclosed lower reach bound, or lower union bound across chunks."
+      },
+      "reachUpper": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "description": "Disclosed upper reach bound, or upper union bound across chunks."
+      },
+      "isHalted": {
+        "type": [
+          "boolean",
+          "null"
+        ],
+        "description": "True only when an explicit halted flag/status is disclosed; unknown is null."
+      },
+      "filterUncertain": {
+        "type": "boolean",
+        "description": "One or more selected filters could not be decided from disclosed/enriched fields."
+      },
+      "targetedLocations": {
+        "type": "array",
+        "description": "Disclosed geo-targeting names; distinct from served countries.",
+        "items": {
+          "type": "string",
+          "description": "A disclosed location, material field path or matched expression."
+        }
+      },
+      "changedFields": {
+        "type": "array",
+        "description": "Material paths that changed relative to monitor state.",
+        "items": {
+          "type": "string",
+          "description": "A disclosed location, material field path or matched expression."
+        }
+      },
+      "matchedKeywords": {
+        "type": "array",
+        "description": "Include expressions that actually matched known values.",
+        "items": {
+          "type": "string",
+          "description": "A disclosed location, material field path or matched expression."
+        }
+      },
+      "matchedFields": {
+        "type": "array",
+        "description": "Known fields with positive keyword matches.",
+        "items": {
+          "type": "string",
+          "description": "A disclosed location, material field path or matched expression."
+        }
+      },
+      "advertiser": {
+        "type": "object",
+        "description": "Public advertiser account identity.",
+        "properties": {
+          "handle": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public handle, otherwise null for numeric-only inputs."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Exact public numeric user ID as a string."
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public advertiser display name if resolved."
+          },
+          "profileUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public profile URL if handle is known."
+          }
+        }
+      },
+      "targeting": {
+        "type": "array",
+        "description": "Disclosed targeting rules without inferred inclusions.",
+        "items": {
+          "type": "object",
+          "description": "One targeting rule.",
+          "properties": {
+            "type": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Disclosed targeting type."
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Disclosed rule name."
+            },
+            "included": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "Explicit inclusion/exclusion; null if not disclosed."
+            }
+          }
+        }
+      },
+      "funding": {
+        "type": "object",
+        "description": "Disclosed funding instrument. No identification of natural persons.",
+        "properties": {
+          "instrumentType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Disclosed payment/funding instrument type."
+          },
+          "currency": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Disclosed ISO currency."
+          },
+          "entity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Disclosed funding entity; never inferred from payment information."
+          }
+        }
+      },
+      "creative": {
+        "type": "object",
+        "description": "Creative enrichment is best effort; repository metrics survive unavailable posts.",
+        "properties": {
+          "text": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Disclosed/enriched public post text."
+          },
+          "textSource": {
+            "type": "string",
+            "description": "repository, public_oembed, official_api or unavailable reason."
+          },
+          "authorName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public post author display name."
+          },
+          "authorNameSource": {
+            "type": "string",
+            "description": "Author-name provenance."
+          },
+          "mediaType": {
+            "type": "string",
+            "description": "Disclosed asset type; unknown stays unknown."
+          },
+          "mediaTypeSource": {
+            "type": "string",
+            "description": "Media-type provenance."
+          },
+          "assetCountSource": {
+            "type": "string",
+            "description": "Observed asset-count provenance; missing assets never imply zero."
+          },
+          "landingUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Disclosed/resolved destination URL."
+          },
+          "landingUrlStatus": {
+            "type": "string",
+            "description": "repository/resolved/unavailable/error reason."
+          },
+          "landingDomain": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Host derived from landingUrl."
+          },
+          "landingDomainSource": {
+            "type": "string",
+            "description": "Domain derivation/provenance."
+          },
+          "enrichmentStatus": {
+            "type": "string",
+            "description": "ok, not_attempted, deleted_or_unavailable, protected, rate_limited or error."
+          },
+          "assetCount": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Number of observed creative assets only when complete metadata is disclosed."
+          },
+          "assets": {
+            "type": "array",
+            "description": "Public asset metadata, never guessed from HTML decoration.",
+            "items": {
+              "type": "object",
+              "description": "One disclosed asset.",
+              "properties": {
+                "type": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Disclosed type; null if unavailable."
+                },
+                "url": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Disclosed url; null if unavailable."
+                },
+                "width": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "description": "Disclosed width; null if unavailable."
+                },
+                "height": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "description": "Disclosed height; null if unavailable."
+                },
+                "durationMs": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "description": "Disclosed durationMs; null if unavailable."
+                }
+              }
+            }
+          },
+          "hashtags": {
+            "type": "array",
+            "description": "Tokens extracted from known creative text.",
+            "items": {
+              "type": "string",
+              "description": "A public hashtag."
+            }
+          },
+          "mentions": {
+            "type": "array",
+            "description": "Tokens extracted from known creative text.",
+            "items": {
+              "type": "string",
+              "description": "A public mention."
+            }
+          },
+          "utm": {
+            "type": "object",
+            "description": "UTM query parameters from the known landing URL.",
+            "additionalProperties": {
+              "type": "string",
+              "description": "Observed UTM value."
+            }
+          }
+        }
+      },
+      "source": {
+        "type": "object",
+        "description": "Source and query provenance.",
+        "properties": {
+          "adapter": {
+            "type": "string",
+            "description": "export, ui or api."
+          },
+          "queryKey": {
+            "type": "string",
+            "description": "Latest contributing query identifier."
+          },
+          "queryKeys": {
+            "type": "array",
+            "description": "All contributing disjoint query keys.",
+            "items": {
+              "type": "string",
+              "description": "Query key."
+            }
+          },
+          "dateSemantics": {
+            "type": "string",
+            "description": "Source boundary behavior and any uncertainty."
+          }
+        }
+      },
+      "extra": {
+        "type": "object",
+        "description": "New/unmapped public source fields and aggregation notes.",
+        "additionalProperties": true
+      },
+      "raw": {
+        "type": "object",
+        "description": "Untouched source row only when includeRaw is enabled.",
+        "additionalProperties": true
+      },
+      "previous": {
+        "type": "object",
+        "description": "Previous material values for changedFields only.",
+        "additionalProperties": true
+      },
+      "availability": {
+        "type": "object",
+        "description": "Reason code for every null output path, including nested fields.",
+        "additionalProperties": true
+      }
+    },
+    "required": [
+      "adKey",
+      "tweetId",
+      "lineItemId",
+      "country",
+      "advertiser",
+      "creative",
+      "availability"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Overview",
+      "transformation": {
+        "flatten": [
+          "advertiser",
+          "creative",
+          "funding",
+          "source"
+        ],
+        "fields": [
+          "adName",
+          "advertiser.handle",
+          "country",
+          "approvalStatus",
+          "impressions",
+          "reach",
+          "daysActive",
+          "deliveryStart",
+          "deliveryEnd",
+          "adUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "adName": {
+            "label": "adName"
+          },
+          "advertiser.handle": {
+            "label": "handle"
+          },
+          "country": {
+            "label": "country"
+          },
+          "approvalStatus": {
+            "label": "approvalStatus"
+          },
+          "impressions": {
+            "label": "impressions"
+          },
+          "reach": {
+            "label": "reach"
+          },
+          "daysActive": {
+            "label": "daysActive"
+          },
+          "deliveryStart": {
+            "label": "deliveryStart"
+          },
+          "deliveryEnd": {
+            "label": "deliveryEnd"
+          },
+          "adUrl": {
+            "label": "adUrl",
+            "format": "link"
+          }
+        }
+      }
+    },
+    "creatives": {
+      "title": "Creatives",
+      "transformation": {
+        "flatten": [
+          "advertiser",
+          "creative",
+          "funding",
+          "source"
+        ],
+        "fields": [
+          "adName",
+          "advertiser.handle",
+          "creative.text",
+          "creative.mediaType",
+          "creative.assetCount",
+          "creative.landingUrl",
+          "creative.enrichmentStatus",
+          "adUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "adName": {
+            "label": "adName"
+          },
+          "advertiser.handle": {
+            "label": "handle"
+          },
+          "creative.text": {
+            "label": "text"
+          },
+          "creative.mediaType": {
+            "label": "mediaType"
+          },
+          "creative.assetCount": {
+            "label": "assetCount"
+          },
+          "creative.landingUrl": {
+            "label": "landingUrl",
+            "format": "link"
+          },
+          "creative.enrichmentStatus": {
+            "label": "enrichmentStatus"
+          },
+          "adUrl": {
+            "label": "adUrl",
+            "format": "link"
+          }
+        }
+      }
+    },
+    "targeting": {
+      "title": "Targeting & reach",
+      "transformation": {
+        "flatten": [
+          "advertiser",
+          "creative",
+          "funding",
+          "source"
+        ],
+        "fields": [
+          "advertiser.handle",
+          "country",
+          "targetingSummary",
+          "impressions",
+          "reach",
+          "reachLower",
+          "reachUpper",
+          "funding.instrumentType",
+          "funding.currency",
+          "funding.entity",
+          "approvalStatus"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "advertiser.handle": {
+            "label": "handle"
+          },
+          "country": {
+            "label": "country"
+          },
+          "targetingSummary": {
+            "label": "targetingSummary"
+          },
+          "impressions": {
+            "label": "impressions"
+          },
+          "reach": {
+            "label": "reach"
+          },
+          "reachLower": {
+            "label": "reachLower"
+          },
+          "reachUpper": {
+            "label": "reachUpper"
+          },
+          "funding.instrumentType": {
+            "label": "instrumentType"
+          },
+          "funding.currency": {
+            "label": "currency"
+          },
+          "funding.entity": {
+            "label": "entity"
+          },
+          "approvalStatus": {
+            "label": "approvalStatus"
+          }
+        }
+      }
+    },
+    "changes": {
+      "title": "Changes",
+      "transformation": {
+        "flatten": [
+          "advertiser",
+          "creative",
+          "funding",
+          "source"
+        ],
+        "fields": [
+          "changeStatus",
+          "changedFields",
+          "previous",
+          "advertiser.handle",
+          "country",
+          "adName",
+          "firstSeenAt",
+          "lastSeenAt",
+          "adUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "changeStatus": {
+            "label": "changeStatus"
+          },
+          "changedFields": {
+            "label": "changedFields"
+          },
+          "previous": {
+            "label": "previous"
+          },
+          "advertiser.handle": {
+            "label": "handle"
+          },
+          "country": {
+            "label": "country"
+          },
+          "adName": {
+            "label": "adName"
+          },
+          "firstSeenAt": {
+            "label": "firstSeenAt"
+          },
+          "lastSeenAt": {
+            "label": "lastSeenAt"
+          },
+          "adUrl": {
+            "label": "adUrl",
+            "format": "link"
+          }
+        }
+      }
+    }
+  }
+}

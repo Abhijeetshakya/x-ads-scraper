@@ -1,0 +1,451 @@
+{
+  "title": "X (Twitter) Ads Scraper & Competitor Monitor",
+  "type": "object",
+  "schemaVersion": 1,
+  "description": "Public EU-served X advertising transparency. Fields not disclosed are null with provenance; global ad-content discovery is unavailable.",
+  "properties": {
+    "advertisers": {
+      "title": "Advertiser handles or IDs",
+      "type": "array",
+      "description": "Accounts to inspect. Accepts handles, @handles, public x.com/twitter.com profile URLs, and numeric user IDs. Maximum 200. This source does not support global content search.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "Nike"
+      ],
+      "maxItems": 200,
+      "sectionCaption": "Scope",
+      "sectionDescription": "X discloses ads served in supported EU markets. Enter advertiser accounts first."
+    },
+    "countries": {
+      "title": "Countries where ads were served",
+      "type": "array",
+      "description": "ISO alpha-2 served-country codes. Validated against live supported countries. UK/EEA coverage is not assumed. Ignored for a named market preset.",
+      "default": [
+        "FR"
+      ],
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      }
+    },
+    "marketPreset": {
+      "title": "Market preset",
+      "type": "string",
+      "description": "Expand a region to supported served countries. Unsupported members such as CH or GB are skipped with a warning.",
+      "default": "Custom",
+      "editor": "select",
+      "enum": [
+        "EU27",
+        "DACH",
+        "Nordics",
+        "Benelux",
+        "UK & Ireland",
+        "All supported",
+        "Custom"
+      ]
+    },
+    "startDate": {
+      "title": "Delivery period starts",
+      "type": "string",
+      "description": "UTC day or relative date (e.g. 90 days). Clamped to the source minimum. Defaults to the last 90 days.",
+      "default": "90 days",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative"
+    },
+    "endDate": {
+      "title": "Delivery period ends",
+      "type": "string",
+      "description": "Inclusive UTC day or relative date. 0 days means today. Future dates clamp to today.",
+      "default": "0 days",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative"
+    },
+    "keywords": {
+      "title": "Include keywords or phrases",
+      "type": "array",
+      "description": "Match words, quoted phrases, or /RE2 regex/. Runs after enrichment when server-side search is unavailable.",
+      "default": [],
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "sectionCaption": "Filters",
+      "sectionDescription": "Unknown fields are kept with filterUncertain unless strict filtering is enabled. Exclusions always win."
+    },
+    "excludeKeywords": {
+      "title": "Exclude keywords or phrases",
+      "type": "array",
+      "description": "Drop known matches before positive keyword matching. Supports quoted phrases and /regex/.",
+      "default": [],
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      }
+    },
+    "keywordMatch": {
+      "title": "Keyword match rule",
+      "type": "string",
+      "description": "Any matches at least one include expression; all requires every include expression.",
+      "default": "any",
+      "editor": "select",
+      "enum": [
+        "any",
+        "all"
+      ]
+    },
+    "keywordFields": {
+      "title": "Fields searched by keywords",
+      "type": "array",
+      "description": "Creative text, advertiser identity, disclosed targeting and landing URL. Selecting creativeText automatically enables creative enrichment.",
+      "default": [
+        "creativeText",
+        "advertiser",
+        "targeting",
+        "landingUrl"
+      ],
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": [
+          "creativeText",
+          "advertiser",
+          "targeting",
+          "landingUrl"
+        ]
+      }
+    },
+    "caseSensitive": {
+      "title": "Match case exactly",
+      "type": "boolean",
+      "description": "When off, Unicode compatibility/diacritic folding and case folding support European-language matching.",
+      "default": false
+    },
+    "targetedLocations": {
+      "title": "Disclosed geo-targeting",
+      "type": "array",
+      "description": "Strings matched against disclosed target locations, distinct from the country where the ad was served.",
+      "default": [],
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      }
+    },
+    "minImpressions": {
+      "title": "Minimum impressions",
+      "type": "number",
+      "description": "Keep rows with at least this many disclosed impressions.",
+      "nullable": true,
+      "minimum": 0
+    },
+    "minReach": {
+      "title": "Minimum unique reach",
+      "type": "number",
+      "description": "Keep rows with at least this disclosed reach. Unique reach cannot be summed across chunks.",
+      "nullable": true,
+      "minimum": 0
+    },
+    "approvalStatuses": {
+      "title": "Approval statuses",
+      "type": "array",
+      "description": "Free text, compared without case. Suggested source values include Verified and Halted; new values remain usable.",
+      "default": [],
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fundingTypes": {
+      "title": "Funding instrument types",
+      "type": "array",
+      "description": "Free-text disclosed funding types, compared without case. No payment-person lookup is performed.",
+      "default": [],
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mediaTypes": {
+      "title": "Creative media types",
+      "type": "array",
+      "description": "Experimental media metadata must be disclosed by repository/embed/API. Unknown is not treated as text.",
+      "default": [],
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": [
+          "text",
+          "image",
+          "video",
+          "gif",
+          "carousel",
+          "unknown"
+        ]
+      }
+    },
+    "strictFilters": {
+      "title": "Drop rows with unknown filtered fields",
+      "type": "boolean",
+      "description": "When on, unavailable fields cannot satisfy a filter. When off, undecidable matches are kept with filterUncertain=true.",
+      "default": false
+    },
+    "enrichCreatives": {
+      "title": "Enrich public post text",
+      "type": "boolean",
+      "description": "Fetch public oEmbed text, author and links per unique tweet ID. Deleted/protected posts retain repository metrics.",
+      "default": true,
+      "sectionCaption": "Enrichment"
+    },
+    "resolveLandingUrls": {
+      "title": "Resolve landing URLs",
+      "type": "boolean",
+      "description": "Follow disclosed t.co links with bounded redirects, strict timeouts and public-destination checks; extract domain and UTM fields.",
+      "default": true
+    },
+    "lookupMedia": {
+      "title": "Experimental media lookup",
+      "type": "boolean",
+      "description": "Best-effort asset details through official X API v2 with a supplied token, otherwise public embed metadata. Failures never remove repository metrics.",
+      "default": false
+    },
+    "xBearerToken": {
+      "title": "X developer bearer token",
+      "type": "string",
+      "description": "Optional permitted developer app bearer token. Required for direct documented export mode and official API media lookups. Never logged.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "mode": {
+      "title": "Run mode",
+      "type": "string",
+      "description": "Snapshot emits matching ads without reading/writing monitor state. Monitor emits only NEW, CHANGED and REMOVED.",
+      "default": "snapshot",
+      "editor": "select",
+      "enum": [
+        "snapshot",
+        "monitor"
+      ],
+      "sectionCaption": "Monitoring and notifications"
+    },
+    "monitorKey": {
+      "title": "Monitor identity",
+      "type": "string",
+      "description": "Optional stable label hashed for state keys. Otherwise derived from advertiser/country/filter inputs. Keep the same value in your scheduled task.",
+      "editor": "textfield"
+    },
+    "monitorStoreName": {
+      "title": "Named monitor state store",
+      "type": "string",
+      "description": "Persistent named Apify KVS. State is sharded by advertiser, country and ad-key bucket. Schedule overlapping runs sequentially.",
+      "default": "x-ads-monitor-state",
+      "editor": "textfield"
+    },
+    "notifyOn": {
+      "title": "Notify on these events",
+      "type": "array",
+      "description": "One digest per run for selected material campaign events.",
+      "default": [
+        "NEW",
+        "CHANGED",
+        "REMOVED"
+      ],
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": [
+          "NEW",
+          "CHANGED",
+          "REMOVED"
+        ]
+      }
+    },
+    "removalGraceRuns": {
+      "title": "Complete runs before removal",
+      "type": "integer",
+      "description": "Absent campaigns are removed only after this many fully successful runs of the same scope. Partial/failed queries never increment absence.",
+      "default": 2,
+      "minimum": 1,
+      "maximum": 100
+    },
+    "metricChangeThresholdPercent": {
+      "title": "Metric-change threshold (%)",
+      "type": "number",
+      "description": "Null means impression/reach growth alone is not a material change. Set a percentage to include significant changes relative to the previous observation.",
+      "nullable": true,
+      "minimum": 0
+    },
+    "webhookUrl": {
+      "title": "Generic webhook URL",
+      "type": "string",
+      "description": "HTTPS digest endpoint. Gets full emitted-event JSON and X-X-Ads-Signature: sha256=<HMAC>.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "webhookSecret": {
+      "title": "Webhook HMAC secret",
+      "type": "string",
+      "description": "Required with webhookUrl. HMAC-SHA256 signs the exact UTF-8 request body.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "slackWebhookUrl": {
+      "title": "Slack incoming webhook URL",
+      "type": "string",
+      "description": "Optional Slack incoming webhook endpoint. Gets native Block Kit digest formatting.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "discordWebhookUrl": {
+      "title": "Discord webhook URL",
+      "type": "string",
+      "description": "Optional Discord endpoint. Gets a native embed digest.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "notifyMaxItems": {
+      "title": "Maximum ads in channel digest",
+      "type": "integer",
+      "description": "Limit displayed top ads in Slack/Discord and generic highlights. Generic full events remain available in the linked dataset.",
+      "default": 10,
+      "minimum": 1,
+      "maximum": 100
+    },
+    "notifyOnEmpty": {
+      "title": "Send an empty digest",
+      "type": "boolean",
+      "description": "Send a summary even when no selected campaign event was emitted.",
+      "default": false
+    },
+    "exportFormats": {
+      "title": "Generate download files",
+      "type": "array",
+      "description": "Files in the run KVS: BOM CSV, JSON, streaming Excel, and self-contained HTML. Native dataset export is always available.",
+      "default": [
+        "csv",
+        "json",
+        "xlsx",
+        "html"
+      ],
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": [
+          "csv",
+          "json",
+          "xlsx",
+          "html"
+        ]
+      },
+      "sectionCaption": "Output and performance"
+    },
+    "includeRaw": {
+      "title": "Include original source rows",
+      "type": "boolean",
+      "description": "Keep raw repository rows for auditing. Increases storage/export sizes.",
+      "default": false
+    },
+    "sortBy": {
+      "title": "Result order",
+      "type": "string",
+      "description": "Sort final emitted results on disk. Unknown metrics sort last.",
+      "default": "impressions",
+      "editor": "select",
+      "enum": [
+        "impressions",
+        "reach",
+        "recency",
+        "advertiser"
+      ]
+    },
+    "maxAdsPerAdvertiser": {
+      "title": "Maximum emitted ads per advertiser",
+      "type": "integer",
+      "description": "Null means no output cap. A cap never justifies removal inference; un-emitted new/change events remain pending for the next run.",
+      "nullable": true,
+      "minimum": 1
+    },
+    "maxItems": {
+      "title": "Maximum emitted ads overall",
+      "type": "integer",
+      "description": "Null means no output cap. A cap never justifies removal inference; un-emitted new/change events remain pending for the next run.",
+      "nullable": true,
+      "minimum": 1
+    },
+    "sourceMode": {
+      "title": "Source adapter",
+      "type": "string",
+      "description": "Auto probes the best verified working source. API is a documented stub until a new official API is verified; export needs a permitted bearer token.",
+      "default": "auto",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "export",
+        "api",
+        "ui"
+      ]
+    },
+    "enablePublicUiTransport": {
+      "title": "Enable public UI HTTP service",
+      "type": "boolean",
+      "description": "Feature flag for anonymous endpoints discovered in current public-page assets. They are not a documented API. Logs a warning and falls back to anonymous browser/export if unavailable.",
+      "default": true
+    },
+    "concurrency": {
+      "title": "Concurrent source queries",
+      "type": "integer",
+      "description": "Polite default is two jobs. Lower to one when the source is slow or rate limited.",
+      "default": 2,
+      "minimum": 1,
+      "maximum": 10
+    },
+    "requestDelayMs": {
+      "title": "Minimum request spacing per host (ms)",
+      "type": "integer",
+      "description": "Token-bucket host pacing shared by repository, enrichment and notifications.",
+      "default": 1000,
+      "minimum": 0,
+      "maximum": 60000
+    },
+    "maxRetries": {
+      "title": "Maximum request retries",
+      "type": "integer",
+      "description": "Bounded retries with exponential backoff/jitter for retryable errors. Auth/invalid queries do not retry.",
+      "default": 3,
+      "minimum": 0,
+      "maximum": 10
+    },
+    "jobTimeoutMinutes": {
+      "title": "Export job timeout (minutes)",
+      "type": "integer",
+      "description": "Maximum time for a submitted CSV job; polling is capped near 15 seconds. Export IDs are checkpointed.",
+      "default": 15,
+      "minimum": 1,
+      "maximum": 120
+    },
+    "maxExportJobs": {
+      "title": "Maximum planned source jobs",
+      "type": "integer",
+      "description": "Fail before submission if advertiser × country × date chunks exceeds this number.",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "operationIds": {
+      "title": "Advanced export operation IDs",
+      "type": "object",
+      "description": "Optional create/status IDs from a permitted current public-page network capture. Never credentials. Normally discovered from live page assets.",
+      "editor": "json"
+    },
+    "proxyConfiguration": {
+      "title": "Proxy configuration",
+      "type": "object",
+      "description": "Off by default. Configure Apify datacenter proxies as the first escalation for permitted access. No identity cycling or CAPTCHA bypass.",
+      "default": {
+        "useApifyProxy": false
+      },
+      "editor": "proxy"
+    }
+  }
+}

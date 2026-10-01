@@ -1,0 +1,4 @@
+Tweet ID,Line Item ID,Account ID,Country,Funding Instrument Type,Currency,Approval Status,Targeting Name,Targeting Type,Impressions,Reach
+1346889436626259968,line-1,account-1,FR,CreditCard,EUR,Verified,France,LOCATION,1200,800
+1346889436626259968,line-1,account-1,FR,CreditCard,EUR,Verified,18-35,AGE,1200,800
+1346889436626259969,line-2,account-1,FR,Invoice,EUR,Halted,Paris,LOCATION,300,200

@@ -1,0 +1,33 @@
+{
+  "synthetic": true,
+  "events": [
+    {
+      "run": 1,
+      "statuses": [
+        "NEW"
+      ]
+    },
+    {
+      "run": 2,
+      "statuses": [
+        "UNCHANGED"
+      ]
+    },
+    {
+      "run": 3,
+      "statuses": [
+        "CHANGED"
+      ]
+    },
+    {
+      "run": 4,
+      "statuses": []
+    },
+    {
+      "run": 5,
+      "statuses": [
+        "REMOVED"
+      ]
+    }
+  ]
+}

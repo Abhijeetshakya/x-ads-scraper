@@ -1,0 +1,21 @@
+{
+  "advertisers": [
+    "Nike"
+  ],
+  "countries": [
+    "FR"
+  ],
+  "marketPreset": "Custom",
+  "startDate": "30 days",
+  "endDate": "0 days",
+  "sourceMode": "auto",
+  "maxItems": 100,
+  "concurrency": 2,
+  "enrichCreatives": true,
+  "exportFormats": [
+    "csv",
+    "json",
+    "xlsx",
+    "html"
+  ]
+}

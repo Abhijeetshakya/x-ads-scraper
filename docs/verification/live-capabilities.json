@@ -1,0 +1,41 @@
+{
+  "countries": [
+    "AT",
+    "BE",
+    "BG",
+    "HR",
+    "CY",
+    "CZ",
+    "DK",
+    "EE",
+    "FI",
+    "FR",
+    "DE",
+    "GR",
+    "HU",
+    "IE",
+    "IT",
+    "LV",
+    "LT",
+    "LU",
+    "MT",
+    "NL",
+    "PL",
+    "PT",
+    "RO",
+    "SK",
+    "SI",
+    "ES",
+    "SE"
+  ],
+  "countriesVerified": true,
+  "earliestDate": "2023-08-26",
+  "operations": {
+    "create": true,
+    "status": true
+  },
+  "uiSearchPath": "/ads-repository/api/ads-search",
+  "uiUserPath": "/ads-repository/api/user-search",
+  "pageUrl": "https://ads.x.com/ads-repository",
+  "verifiedAt": "2026-10-01T11:55:10.736Z"
+}

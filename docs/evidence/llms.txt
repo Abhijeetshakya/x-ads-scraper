@@ -1,0 +1,519 @@
+# Apify Documentation
+
+> Apify is the largest marketplace of tools for AI. Thousands of ready-made Actors to automate your business. Get real-time web data, track competitors, generate leads, analyze sentiment, and orchestrate your apps. Actors are created by a global community of builders earning over $1M every month. Apify takes care of infrastructure, billing, and distribution.
+
+The entire content of Apify documentation is available in a single Markdown file at https://docs.apify.com/llms-full.txt
+
+For pricing details, see https://apify.com/pricing.md
+
+For autonomous AI agents, the Apify Agent General Interface (AGI) at https://agi.apify.com is the entry point to use and pay for the Apify platform and Actors through agentic payment protocols like x402 or MPP, without account setup or ongoing billing.
+
+
+## Apify API
+
+- [Apify API documentation](https://docs.apify.com/api.md)
+- [Apify API](https://docs.apify.com/api/v2.md): The Apify API (version 2) provides programmatic access to the [Apify
+    - [Manage Actor builds](https://docs.apify.com/api/v2/actor-builds.md): Manage Actor builds
+    - [Manage Actor runs](https://docs.apify.com/api/v2/actor-runs.md): Manage Actor runs
+    - [Manage Actor tasks](https://docs.apify.com/api/v2/actor-tasks.md): Manage Actor tasks
+    - [Actors](https://docs.apify.com/api/v2/actors.md): Actors
+    - [Actor builds](https://docs.apify.com/api/v2/actors-actor-builds.md): Actor builds
+    - [Actor runs](https://docs.apify.com/api/v2/actors-actor-runs.md): Actor runs
+    - [Actor versions](https://docs.apify.com/api/v2/actors-actor-versions.md): Actor versions
+    - [Webhook collections](https://docs.apify.com/api/v2/actors-webhook-collection.md): Webhook collections
+    - [Default dataset](https://docs.apify.com/api/v2/default-dataset.md): Default dataset
+    - [Default key-value store](https://docs.apify.com/api/v2/default-key-value-store.md): Default key-value store
+    - [Default request queue](https://docs.apify.com/api/v2/default-request-queue.md): Default request queue
+    - [Get started with Apify API](https://docs.apify.com/api/v2/getting-started.md): The Apify API provides programmatic access to the [Apify platform](https://docs.apify.com).
+    - [Last Actor run's abort](https://docs.apify.com/api/v2/last-actor-runs-abort.md): Last Actor run's abort
+    - [Last Actor run's default dataset](https://docs.apify.com/api/v2/last-actor-runs-default-dataset.md): Last Actor run's default dataset
+    - [Last Actor run's default key-value store](https://docs.apify.com/api/v2/last-actor-runs-default-key-value-store.md): Last Actor run's default key-value store
+    - [Last Actor run's default request queue](https://docs.apify.com/api/v2/last-actor-runs-default-request-queue.md): Last Actor run's default request queue
+    - [Last Actor run's log](https://docs.apify.com/api/v2/last-actor-runs-log.md): Last Actor run's log
+    - [Last Actor run's metamorph](https://docs.apify.com/api/v2/last-actor-runs-metamorph.md): Last Actor run's metamorph
+    - [Last Actor run's reboot](https://docs.apify.com/api/v2/last-actor-runs-reboot.md): Last Actor run's reboot
+    - [Last Actor task run's abort](https://docs.apify.com/api/v2/last-actor-task-runs-abort.md): Last Actor task run's abort
+    - [Last Actor task run's default dataset](https://docs.apify.com/api/v2/last-actor-task-runs-default-dataset.md): Last Actor task run's default dataset
+    - [Last Actor task run's default key-value store](https://docs.apify.com/api/v2/last-actor-task-runs-default-key-value-store.md): Last Actor task run's default key-value store
+    - [Last Actor task run's default request queue](https://docs.apify.com/api/v2/last-actor-task-runs-default-request-queue.md): Last Actor task run's default request queue
+    - [Last Actor task run's log](https://docs.apify.com/api/v2/last-actor-task-runs-log.md): Last Actor task run's log
+    - [Last Actor task run's metamorph](https://docs.apify.com/api/v2/last-actor-task-runs-metamorph.md): Last Actor task run's metamorph
+    - [Last Actor task run's reboot](https://docs.apify.com/api/v2/last-actor-task-runs-reboot.md): Last Actor task run's reboot
+    - [Get build and run logs](https://docs.apify.com/api/v2/logs.md): Get build and run logs
+    - [Manage schedules](https://docs.apify.com/api/v2/schedules.md): Manage schedules
+    - [Datasets](https://docs.apify.com/api/v2/storage-datasets.md): Datasets
+    - [Key-value stores](https://docs.apify.com/api/v2/storage-key-value-stores.md): Key-value stores
+    - [Request queues](https://docs.apify.com/api/v2/storage-request-queues.md): Request queues
+    - [Requests](https://docs.apify.com/api/v2/storage-request-queues-requests.md): Requests
+    - [Requests locks](https://docs.apify.com/api/v2/storage-request-queues-requests-locks.md): Requests locks
+    - [Get data from Apify Store](https://docs.apify.com/api/v2/store.md): Get data from Apify Store
+    - [Test proxy](https://docs.apify.com/api/v2/tools.md): Test proxy
+    - [Get user data](https://docs.apify.com/api/v2/users.md): Get user data
+    - [Manage usage and limits](https://docs.apify.com/api/v2/users-usage.md): Manage usage and limits
+    - [Webhook dispatches](https://docs.apify.com/api/v2/webhooks-webhook-dispatches.md): Webhook dispatches
+    - [Webhooks](https://docs.apify.com/api/v2/webhooks-webhooks.md): Webhooks
+
+## Apify API client for JavaScript
+
+      - [Overview](https://docs.apify.com/api/client/js/docs.md): The official JavaScript library to access the Apify API, with automatic retries, TypeScript support, and cross-platform compatibility.
+        - [Quick start](https://docs.apify.com/api/client/js/docs/introduction/quick-start.md): Get started with the Apify API client for JavaScript by running an Actor and retrieving results from its dataset.
+        - [Usage patterns](https://docs.apify.com/api/client/js/docs/concepts/usage-patterns.md): Learn the resource client and collection client patterns used by the Apify API client for JavaScript.
+        - [Convenience functions](https://docs.apify.com/api/client/js/docs/concepts/convenience-functions.md): Use call(), waitForFinish(), and other convenience functions in the Apify API client for JavaScript.
+        - [Error handling and retries](https://docs.apify.com/api/client/js/docs/concepts/error-handling.md): Handle API errors and configure automatic retries with exponential backoff in the Apify API client for JavaScript.
+        - [Pagination](https://docs.apify.com/api/client/js/docs/concepts/pagination.md): Paginate through large result sets and use async iteration with the Apify API client for JavaScript.
+        - [Use in bundled environments](https://docs.apify.com/api/client/js/docs/concepts/bundled-environments.md): Use the Apify API client for JavaScript in browsers, Cloudflare Workers, and other edge runtimes.
+        - [Code examples](https://docs.apify.com/api/client/js/docs/guides/examples.md): Practical code examples for common tasks with the Apify API client for JavaScript, including webhooks and datasets.
+        - [Changelog](https://docs.apify.com/api/client/js/docs/changelog.md)
+      - [apify-client reference](https://docs.apify.com/api/client/js/reference.md)
+
+## Apify API client for Python
+
+      - [Overview](https://docs.apify.com/api/client/python/docs.md): The official Python library to access the Apify API, with automatic retries, async support, and comprehensive API coverage.
+        - [Quick start](https://docs.apify.com/api/client/python/docs/introduction/quick-start.md): Get started with the Apify API client for Python by running an Actor and retrieving results from its dataset.
+        - [Single and collection clients](https://docs.apify.com/api/client/python/docs/concepts/single-and-collection-clients.md): Understand the two main types of clients for managing API resources.
+        - [Convenience methods](https://docs.apify.com/api/client/python/docs/concepts/convenience-methods.md): Convenience methods to handle actions that the API alone cannot perform efficiently.
+        - [Error handling](https://docs.apify.com/api/client/python/docs/concepts/error-handling.md): The client automatically extracts data, converts date strings to datetime objects, and raises ApifyApiError on errors.
+        - [Pagination](https://docs.apify.com/api/client/python/docs/concepts/pagination.md): Work with paginated data using the ListPage object returned by list methods.
+        - [Asyncio support](https://docs.apify.com/api/client/python/docs/concepts/asyncio-support.md): Use the asynchronous ApifyClientAsync to interact with the Apify API using Python's async/await syntax.
+        - [Retries](https://docs.apify.com/api/client/python/docs/concepts/retries.md): Automatic retries for requests that fail due to network issues or rate limiting.
+        - [Nested clients](https://docs.apify.com/api/client/python/docs/concepts/nested-clients.md): Use nested clients to simplify working with related collections like Actor runs.
+        - [Streaming resources](https://docs.apify.com/api/client/python/docs/concepts/streaming-resources.md): Stream dataset items, key-value store records, and logs incrementally without downloading entirely into memory.
+        - [Logging](https://docs.apify.com/api/client/python/docs/concepts/logging.md): Configure the apify_client logger to print debug information about API requests.
+        - [Passing input to Actor](https://docs.apify.com/api/client/python/docs/guides/passing-input-to-actor.md): Run an Actor and retrieve results by passing input data directly to the call method.
+        - [Retrieve Actor data](https://docs.apify.com/api/client/python/docs/guides/retrieve-actor-data.md): Retrieve, paginate, merge, and export Actor output data from datasets.
+        - [Manage tasks for reusable input](https://docs.apify.com/api/client/python/docs/guides/manage-tasks-for-reusable-input.md): Create multiple tasks with different input configurations for the same Actor.
+        - [Integration with data libraries](https://docs.apify.com/api/client/python/docs/guides/integration-with-data-libraries.md): Load dataset items directly into a Pandas DataFrame for efficient manipulation and analysis.
+        - [Upgrading to v2](https://docs.apify.com/api/client/python/docs/upgrading/upgrading-to-v2.md): Breaking changes between Apify Python API Client v1.x and v2.0.
+        - [Changelog](https://docs.apify.com/api/client/python/docs/changelog.md)
+      - [apify-client reference](https://docs.apify.com/api/client/python/reference.md)
+
+## Experimental API clients
+
+- [Apify API client for Rust](https://raw.githubusercontent.com/apify/apify-client-rust/refs/heads/master/README.md). Install by adding `apify-client` to `Cargo.toml`.
+- [Apify API client for Go](https://raw.githubusercontent.com/apify/apify-client-go/refs/heads/master/README.md). Install with `go get github.com/apify/apify-client-go`.
+- [Apify API client for PHP](https://raw.githubusercontent.com/apify/apify-client-php/refs/heads/master/README.md). Install with `composer require apify/apify-client`.
+- [Apify API client for Java](https://raw.githubusercontent.com/apify/apify-client-java/refs/heads/master/README.md). Install from Maven Central as `com.apify:apify-client`.
+- [Apify API client for .NET](https://raw.githubusercontent.com/apify/apify-client-dotnet/refs/heads/master/README.md). Install with `dotnet add package Apify.Client`.
+
+## Apify SDK for JavaScript
+
+      - [Apify SDK for JavaScript](https://docs.apify.com/sdk/js/docs/overview.md): The official library for creating Apify Actors in JavaScript, providing tools for web crawling, scraping, and automation at scale.
+        - [Quick start](https://docs.apify.com/sdk/js/docs/introduction/quick-start.md): Get started with the Apify SDK for JavaScript by creating your first Actor.
+        - [Actor lifecycle](https://docs.apify.com/sdk/js/docs/concepts/actor-lifecycle.md): Understanding Actor lifecycle, initialization, and the Apify platform.
+        - [Environment Variables](https://docs.apify.com/sdk/js/docs/concepts/environment-variables.md): Environment variables used by Apify SDK.
+        - [Proxy Management](https://docs.apify.com/sdk/js/docs/concepts/proxy-management.md): IP address rotation and proxy configuration.
+        - [Request Storage](https://docs.apify.com/sdk/js/docs/concepts/request-storage.md): Request storage types for managing crawl queues.
+        - [Result Storage](https://docs.apify.com/sdk/js/docs/concepts/result-storage.md): Result storage types for saving crawl output.
+        - [Session Management](https://docs.apify.com/sdk/js/docs/concepts/session-management.md): SessionPool for managing browser sessions and cookies.
+        - [Running in Docker](https://docs.apify.com/sdk/js/docs/concepts/docker-images.md): Example Docker images to run your crawlers.
+        - [Pay-per-event Monetization](https://docs.apify.com/sdk/js/docs/concepts/pay-per-event.md): Monetize your Actors using the pay-per-event pricing model.
+        - [Basic crawler](https://docs.apify.com/sdk/js/docs/guides/basic-crawler.md): Bare-bones example using BasicCrawler.
+        - [Cheerio crawler](https://docs.apify.com/sdk/js/docs/guides/cheerio-crawler.md): Crawl URLs using plain HTTP requests and parse HTML with Cheerio.
+        - [Playwright crawler](https://docs.apify.com/sdk/js/docs/guides/playwright-crawler.md): Use PlaywrightCrawler for browser-based crawling.
+        - [Puppeteer crawler](https://docs.apify.com/sdk/js/docs/guides/puppeteer-crawler.md): Use PuppeteerCrawler for browser-based crawling.
+        - [Crawl all links on a website](https://docs.apify.com/sdk/js/docs/guides/crawl-all-links.md): Use enqueueLinks() to crawl entire websites.
+        - [Crawl a sitemap](https://docs.apify.com/sdk/js/docs/guides/crawl-sitemap.md): Download and crawl URLs from a sitemap.
+        - [Accept user input](https://docs.apify.com/sdk/js/docs/guides/accept-user-input.md): Accept and log user input in your Actor.
+        - [Add data to dataset](https://docs.apify.com/sdk/js/docs/guides/add-data-to-dataset.md): Save data to the default dataset.
+        - [Call actor](https://docs.apify.com/sdk/js/docs/guides/call-actor.md): Start an Apify Actor programmatically.
+        - [Setting up a TypeScript project](https://docs.apify.com/sdk/js/docs/guides/typescript-setup.md): TypeScript support in Apify SDK.
+        - [Upgrading to v3](https://docs.apify.com/sdk/js/docs/upgrading/upgrading-to-v3.md): Breaking changes between Crawlee (v3) and Apify SDK (v2).
+      - [Changelog](https://docs.apify.com/sdk/js/docs/changelog.md)
+    - [apify reference](https://docs.apify.com/sdk/js/reference.md)
+
+## Apify SDK for Python
+
+      - [Overview](https://docs.apify.com/sdk/python/docs/overview.md): The official library for creating Apify Actors in Python, providing tools for web scraping, automation, and data storage integration.
+      - [Quick start](https://docs.apify.com/sdk/python/docs/quick-start.md): Get started with the Apify SDK for Python by creating your first Actor.
+        - [Actor lifecycle](https://docs.apify.com/sdk/python/docs/concepts/actor-lifecycle.md): How an Apify Actor starts, runs, and shuts down.
+        - [Actor input](https://docs.apify.com/sdk/python/docs/concepts/actor-input.md): Read Actor input from the default key-value store.
+        - [Actor configuration](https://docs.apify.com/sdk/python/docs/concepts/actor-configuration.md): Configure the Actor class using the Configuration class and environment variables.
+        - [Actor events & state persistence](https://docs.apify.com/sdk/python/docs/concepts/actor-events.md): Handle Actor events sent by the Apify platform during runtime.
+        - [Working with storages](https://docs.apify.com/sdk/python/docs/concepts/storages.md): Work with default or named storages for datasets, key-value stores, and request queues.
+        - [Proxy management](https://docs.apify.com/sdk/python/docs/concepts/proxy-management.md): Work around IP blocking using proxy servers.
+        - [Interacting with other Actors](https://docs.apify.com/sdk/python/docs/concepts/interacting-with-other-actors.md): Methods to interact with other Actors and tasks on the platform.
+        - [Accessing Apify API](https://docs.apify.com/sdk/python/docs/concepts/access-apify-api.md): Access Apify API features not covered by the SDK.
+        - [Creating webhooks](https://docs.apify.com/sdk/python/docs/concepts/webhooks.md): Configure webhooks to trigger actions on Actor events.
+        - [Logging](https://docs.apify.com/sdk/python/docs/concepts/logging.md): Logging through Python's standard logging module.
+        - [Pay-per-event monetization](https://docs.apify.com/sdk/python/docs/concepts/pay-per-event.md): Monetize your Actors using the pay-per-event pricing model.
+        - [Using Crawlee](https://docs.apify.com/sdk/python/docs/guides/crawlee.md): Use the Crawlee library in your Actors.
+        - [Using BeautifulSoup with HTTPX](https://docs.apify.com/sdk/python/docs/guides/beautifulsoup-httpx.md): Use BeautifulSoup with HTTPX in your Actors.
+        - [Using Playwright](https://docs.apify.com/sdk/python/docs/guides/playwright.md): Use Playwright for web scraping in your Actors.
+        - [Using Scrapy](https://docs.apify.com/sdk/python/docs/guides/scrapy.md): Use the Scrapy framework in your Actors.
+        - [Using Selenium](https://docs.apify.com/sdk/python/docs/guides/selenium.md): Use Selenium for web scraping in your Actors.
+        - [Using Parsel with Impit](https://docs.apify.com/sdk/python/docs/guides/parsel-impit.md): Combine Parsel and Impit libraries for scraping.
+        - [Running webserver](https://docs.apify.com/sdk/python/docs/guides/running-webserver.md): Run a web server inside your Actor.
+        - [Upgrading to v3](https://docs.apify.com/sdk/python/docs/upgrading/upgrading-to-v3.md): Breaking changes between Apify Python SDK v2.x and v3.0.
+      - [Changelog](https://docs.apify.com/sdk/python/docs/changelog.md)
+    - [apify-sdk-python reference](https://docs.apify.com/sdk/python/reference.md)
+
+## Apify CLI
+
+  - [Apify CLI overview](https://docs.apify.com/cli/docs.md): An introduction to Apify CLI, a command-line interface for creating, developing, building, and running Apify Actors and managing the Apify cloud platform.
+    - [Quick start](https://docs.apify.com/cli/docs/quick-start.md): Learn how to create, run, and manage Actors using Apify CLI.
+    - [Installation](https://docs.apify.com/cli/docs/installation.md): Learn how to install Apify CLI using installation scripts, Homebrew, or NPM.
+    - [Command reference](https://docs.apify.com/cli/docs/reference.md): The Apify CLI provides tools for managing your Apify projects and resources from the command line.
+    - [Integrating Scrapy projects](https://docs.apify.com/cli/docs/integrating-scrapy.md): Learn how to run Scrapy projects as Apify Actors and deploy them on the Apify platform.
+    - [Telemetry](https://docs.apify.com/cli/docs/telemetry.md): Apify collects telemetry data about the general usage of the CLI.
+    - [Changelog](https://docs.apify.com/cli/docs/changelog.md)
+
+## Apify Academy
+
+- [Apify Academy](https://docs.apify.com/academy.md): Learn everything about web scraping and automation with our free courses that will turn you into an expert scraper developer.
+  - [Wrap open-source as an Actor](https://docs.apify.com/academy/actorization.md): A guide to converting your applications, scripts, and open-source projects into monetizable, cloud-based tools on the Apify platform.
+  - [Advanced web scraping](https://docs.apify.com/academy/advanced-web-scraping.md): Take your scrapers to a production-ready level by learning various advanced concepts and techniques that will help you build highly scalable and reliable crawlers.
+      - [Crawling sitemaps](https://docs.apify.com/academy/advanced-web-scraping/crawling/crawling-sitemaps.md): Learn how to extract all of a website's listings even if they limit the number of results pages. See code examples for setting up your scraper.
+      - [Crawling with search](https://docs.apify.com/academy/advanced-web-scraping/crawling/crawling-with-search.md): Learn how to extract all of a website's listings even if they limit the number of results pages. See code examples for setting up your scraper.
+      - [Sitemaps vs search](https://docs.apify.com/academy/advanced-web-scraping/crawling/sitemaps-vs-search.md): Learn how to extract all of a website's listings even if they limit the number of results pages.
+    - [Tips and tricks for robustness](https://docs.apify.com/academy/advanced-web-scraping/tips-and-tricks-robustness.md): Learn how to make your automated processes more effective. Avoid common pitfalls, future-proof your programs and improve your processes.
+    - [AI agent tutorial](https://docs.apify.com/academy/ai/ai-agents.md): In this section of the Apify Academy, we show you how to build an AI agent with the CrewAI Python framework. You’ll learn how to create an agent for Instagram analysis and integrate it with LLMs and Apify Actors.
+  - [Anti-scraping protections](https://docs.apify.com/academy/anti-scraping.md): Understand the various anti-scraping measures different sites use to prevent bots from accessing them, and how to appear more human to fix these issues.
+    - [Anti-scraping mitigation](https://docs.apify.com/academy/anti-scraping/mitigation.md): After learning about the various different anti-scraping techniques websites use, learn how to mitigate them with a few different techniques.
+      - [Bypassing Cloudflare browser check](https://docs.apify.com/academy/anti-scraping/mitigation/cloudflare-challenge.md.md): Learn how to bypass Cloudflare browser challenge with Crawlee.
+      - [Generating fingerprints](https://docs.apify.com/academy/anti-scraping/mitigation/generating-fingerprints.md): Learn how to use two super handy npm libraries to generate fingerprints and inject them into a Playwright or Puppeteer page.
+      - [Proxies](https://docs.apify.com/academy/anti-scraping/mitigation/proxies.md): Learn all about proxies, how they work, and how they can be leveraged in a scraper to avoid blocking and other anti-scraping tactics.
+      - [Using proxies](https://docs.apify.com/academy/anti-scraping/mitigation/using-proxies.md): Learn how to use and automagically rotate proxies in your scrapers by using Crawlee, and a bit about how to obtain pools of proxies.
+    - [Anti-scraping techniques](https://docs.apify.com/academy/anti-scraping/techniques.md): Understand the various common (and obscure) anti-scraping techniques used by websites to prevent bots from accessing their content.
+      - [Browser challenges](https://docs.apify.com/academy/anti-scraping/techniques/browser-challenges.md): Learn how to navigate browser challenges like Cloudflare's to effectively scrape data from protected websites.
+      - [Captchas](https://docs.apify.com/academy/anti-scraping/techniques/captchas.md): Learn about the reasons a bot might be presented a captcha, the best ways to avoid CAPTCHASs in the first place, and how to programmatically solve them.
+      - [Fingerprinting](https://docs.apify.com/academy/anti-scraping/techniques/fingerprinting.md): Understand browser fingerprinting, an advanced technique used by browsers to track user data and even block bots from accessing them.
+      - [Firewalls](https://docs.apify.com/academy/anti-scraping/techniques/firewalls.md): Understand what a web-application firewall is, how they work, and the various common techniques for avoiding them altogether.
+      - [Geolocation](https://docs.apify.com/academy/anti-scraping/techniques/geolocation.md): Learn about the geolocation techniques to determine where requests are coming from, and a bit about how to avoid being blocked based on geolocation.
+      - [Rate-limiting](https://docs.apify.com/academy/anti-scraping/techniques/rate-limiting.md): Learn about rate-limiting, a common tactic used by websites to avoid a large and non-human rate of requests coming from a single IP address.
+  - [Tutorials on Apify API](https://docs.apify.com/academy/api.md): A collection of various tutorials explaining how to interact with the Apify platform programmatically using its API.
+  - [API scraping](https://docs.apify.com/academy/api-scraping.md): Learn all about how the professionals scrape various types of APIs with various configurations, parameters, and requirements.
+    - [General API scraping](https://docs.apify.com/academy/api-scraping/general-api-scraping.md): Learn the benefits and drawbacks of API scraping, how to locate an API, how to utilize its features, and how to work around common roadblocks.
+      - [Dealing with headers, cookies, and tokens](https://docs.apify.com/academy/api-scraping/general-api-scraping/cookies-headers-tokens.md): Learn about how some APIs require certain cookies, headers, and/or tokens to be present in a request in order for data to be received.
+      - [Handling pagination](https://docs.apify.com/academy/api-scraping/general-api-scraping/handling-pagination.md): Learn about the three most popular API pagination techniques and how to handle each of them when scraping an API with pagination.
+      - [Locating API endpoints](https://docs.apify.com/academy/api-scraping/general-api-scraping/locating-and-learning.md): Learn how to effectively locate a website's API endpoints, and learn how to use them to get the data you want faster and more reliably.
+    - [GraphQL scraping](https://docs.apify.com/academy/api-scraping/graphql-scraping.md): Dig into the topic of scraping APIs which use the latest and greatest API technology - GraphQL. GraphQL APIs are very different from regular REST APIs.
+      - [Custom queries](https://docs.apify.com/academy/api-scraping/graphql-scraping/custom-queries.md): Learn how to write custom GraphQL queries, how to pass input values into GraphQL requests as variables, and how to retrieve and output the data from a scraper.
+      - [Introspection](https://docs.apify.com/academy/api-scraping/graphql-scraping/introspection.md): Understand what introspection is, and how it can help you understand a GraphQL API to take advantage of the features it has to offer before writing any code.
+      - [Modifying variables](https://docs.apify.com/academy/api-scraping/graphql-scraping/modifying-variables.md): Learn how to modify the variables of a JSON format GraphQL query to use the API without needing to write any GraphQL language or create custom queries.
+    - [How to retry failed requests](https://docs.apify.com/academy/api/retry-failed-requests.md): Learn how to resurrect your run but retrying only failed requests
+    - [Run Actor and retrieve data via API](https://docs.apify.com/academy/api/run-actor-and-retrieve-data-via-api.md): Learn how to run an Actor/task via the Apify API, wait for the job to finish, and retrieve its output data. Your key to integrating Actors with your projects.
+  - [Tutorials on Apify Actors](https://docs.apify.com/academy/apify-actors.md): A collection of various Actor tutorials to aid you in your journey to becoming a master Actor developer.
+    - [Adding your RapidAPI project to Apify](https://docs.apify.com/academy/apify-actors/adding-rapidapi-project.md): If you've published an API project on RapidAPI, you can expand your project's visibility by listing it on Apify Store. This gives you access to Apify's developer community and ecosystem.
+  - [Introduction to the Apify platform](https://docs.apify.com/academy/apify-platform.md): Learn all about the Apify platform, all of the tools it offers, and how it can improve your overall development experience.
+  - [Tutorials on ready-made Apify scrapers](https://docs.apify.com/academy/apify-scrapers.md): Discover Apify's ready-made web scraping and automation tools. Compare Web Scraper, Cheerio Scraper and Puppeteer Scraper to decide which is right for you.
+      - [Validate your Actor idea](https://docs.apify.com/academy/build-and-publish/actor-ideas/actor-validation.md): Learn how to validate market demand for your Actor using SEO data, community research, and competitive analysis before you build.
+      - [Find ideas for new Actors](https://docs.apify.com/academy/build-and-publish/actor-ideas/find-actor-ideas.md): Learn what kind of software tools are suitable to be packaged and published as Apify Actors and where you can find ideas and inspiration what to build.
+    - [Why publish Actors on Apify](https://docs.apify.com/academy/build-and-publish/why.md): Discover how publishing Actors transforms your code into a revenue-generating product without traditional SaaS overhead.
+  - [Deploying your code to Apify](https://docs.apify.com/academy/deploying-your-code.md): In this course learn how to take an existing project of yours and deploy it to the Apify platform as an Actor.
+    - [Creating dataset schema](https://docs.apify.com/academy/deploying-your-code/dataset-schema.md): Learn how to generate an appealing Overview table interface to preview your Actor results in real time on the Apify platform.
+    - [Publishing your Actor](https://docs.apify.com/academy/deploying-your-code/deploying.md): Push local code to the platform, or create an Actor and integrate it with a Git repository for automatic rebuilds.
+    - [Creating Actor Dockerfile](https://docs.apify.com/academy/deploying-your-code/docker-file.md): Learn to write a Dockerfile for your project so it can run in a Docker container on the Apify platform.
+    - [How to write Actor input schema](https://docs.apify.com/academy/deploying-your-code/input-schema.md): Learn to define your Actor's input UI on the Apify platform with an INPUT_SCHEMA.json file stored inside the .actor configuration directory.
+    - [Managing Actor inputs and outputs](https://docs.apify.com/academy/deploying-your-code/inputs-outputs.md): Learn to accept input into your Actor, process it, and return output. This concept applies to Actors in any language.
+  - [Expert scraping with Apify](https://docs.apify.com/academy/expert-scraping-with-apify.md): After learning the basics of Actors and Apify, learn to develop pro-level scrapers on the Apify platform with this advanced course.
+    - [Webhooks & advanced Actor overview](https://docs.apify.com/academy/expert-scraping-with-apify/actors-webhooks.md): Learn more advanced details about Actors, how they work, and the default configurations they can take. Also, learn how to integrate your Actor with webhooks.
+    - [Apify API & client](https://docs.apify.com/academy/expert-scraping-with-apify/apify-api-and-client.md): Gain an in-depth understanding of the two main ways of programmatically interacting with the Apify platform - through the API, and through a client.
+    - [Bypassing anti-scraping methods](https://docs.apify.com/academy/expert-scraping-with-apify/bypassing-anti-scraping.md): Learn about bypassing anti-scraping methods using proxies and proxy/session rotation together with Crawlee and the Apify SDK.
+    - [Managing source code](https://docs.apify.com/academy/expert-scraping-with-apify/managing-source-code.md): Learn how to manage your Actor's source code more efficiently by integrating it with a GitHub repository. This is standard on the Apify platform.
+    - [Migrations & maintaining state](https://docs.apify.com/academy/expert-scraping-with-apify/migrations-maintaining-state.md): Learn about what Actor migrations are and how to handle them properly so that the state is not lost and runs can safely be resurrected.
+    - [Saving useful run statistics](https://docs.apify.com/academy/expert-scraping-with-apify/saving-useful-stats.md): Understand how to save statistics about an Actor's run, what types of statistics you can save, and why you might want to save them for a large-scale scraper.
+    - [Tasks & storage](https://docs.apify.com/academy/expert-scraping-with-apify/tasks-and-storage.md): Understand how to save the configurations for Actors with Actor tasks. Also, learn about storage and the different types Apify offers.
+  - [Getting started](https://docs.apify.com/academy/getting-started.md): Get started with the Apify platform by creating an account and learning about Apify Console, which is where all Apify Actors are born!
+    - [Actors](https://docs.apify.com/academy/getting-started/actors.md): What is an Actor? How do we create them? Learn the basics of what Actors are, how they work, and try out an Actor yourself right on the Apify platform!
+    - [The Apify API](https://docs.apify.com/academy/getting-started/apify-api.md): Learn how to use the Apify API to programmatically call your Actors, retrieve data stored on the platform, view Actor logs, and more!
+    - [Apify client](https://docs.apify.com/academy/getting-started/apify-client.md): Interact with the Apify API in your code by using the apify-client package, which is available for both JavaScript and Python.
+    - [Creating Actors](https://docs.apify.com/academy/getting-started/creating-actors.md): Build and run your very first Actor directly in Apify Console from a template. This lesson provides hands-on experience with building and running Actors.
+    - [Inputs & outputs](https://docs.apify.com/academy/getting-started/inputs-outputs.md): Create an Actor from scratch which takes an input, processes that input, and then outputs a result that can be used elsewhere.
+  - [Tutorials on scraping with Node.js](https://docs.apify.com/academy/node-js.md): A collection of various Node.js tutorials on scraping sitemaps, optimizing your scrapers, using popular Node.js web scraping libraries, and more.
+  - [Puppeteer and Playwright course](https://docs.apify.com/academy/puppeteer-playwright.md): Learn in-depth how to use two of the most popular Node.js libraries for controlling a headless browser - Puppeteer and Playwright.
+    - [I - Launching a browser](https://docs.apify.com/academy/puppeteer-playwright/browser.md): Understand what the Browser object is in Puppeteer/Playwright, how to create one, and a bit about how to interact with one.
+    - [VI - Creating multiple browser contexts](https://docs.apify.com/academy/puppeteer-playwright/browser-contexts.md): Learn what a browser context is, how to create one, how to emulate devices, and how to use browser contexts to automate multiple sessions at one time.
+    - [Common use cases](https://docs.apify.com/academy/puppeteer-playwright/common-use-cases.md): Learn about some of the most common use cases of Playwright and Puppeteer, and how to handle these use cases when you run into them.
+      - [Downloading files](https://docs.apify.com/academy/puppeteer-playwright/common-use-cases/downloading-files.md): Learn how to automatically download and save files to the disk using two of the most popular web automation libraries, Puppeteer and Playwright.
+      - [Logging into a website](https://docs.apify.com/academy/puppeteer-playwright/common-use-cases/logging-into-a-website.md): Understand the "login flow" - logging into a website, then maintaining a logged in status within different browser contexts for an efficient automation process.
+      - [Paginating through results](https://docs.apify.com/academy/puppeteer-playwright/common-use-cases/paginating-through-results.md): Learn how to paginate through results on websites that use either page number-based pagination or dynamic lazy-loading pagination.
+      - [Scraping iFrames](https://docs.apify.com/academy/puppeteer-playwright/common-use-cases/scraping-iframes.md): Extracting data from iFrames can be frustrating. In this tutorial, we will learn how to scrape information from iFrames using Puppeteer or Playwright.
+      - [Submitting a form with a file attachment](https://docs.apify.com/academy/puppeteer-playwright/common-use-cases/submitting-a-form-with-a-file-attachment.md): Understand how to download a file, attach it to a form using a headless browser in Playwright or Puppeteer, then submit the form.
+    - [III - Executing scripts](https://docs.apify.com/academy/puppeteer-playwright/executing-scripts.md): Understand the two different contexts which your code can be run in, and how to run custom scripts in the context of the browser.
+      - [Extracting data](https://docs.apify.com/academy/puppeteer-playwright/executing-scripts/collecting-data.md): Learn how to extract data from a page with evaluate functions, then how to parse it by using a second library called Cheerio.
+      - [Injecting code](https://docs.apify.com/academy/puppeteer-playwright/executing-scripts/injecting-code.md): Learn how to inject scripts prior to a page's load (pre-injecting), as well as how to expose functions to be run at a later time on the page.
+    - [II - Opening & controlling a page](https://docs.apify.com/academy/puppeteer-playwright/page.md): Learn how to create and open a Page with a Browser, and how to use it to visit and programmatically interact with a website.
+      - [Interacting with a page](https://docs.apify.com/academy/puppeteer-playwright/page/interacting-with-a-page.md): Learn how to programmatically do actions on a page such as clicking, typing, and pressing keys. Also, discover a common roadblock that comes up when automating.
+      - [Page methods](https://docs.apify.com/academy/puppeteer-playwright/page/page-methods.md): Understand that the Page object has many different methods to offer, and learn how to use two of them to capture a page's title and take a screenshot.
+      - [Waiting for elements and events](https://docs.apify.com/academy/puppeteer-playwright/page/waiting.md): Learn the importance of waiting for content and events before running interaction or extraction code, as well as the best practices for doing so.
+    - [V - Using proxies](https://docs.apify.com/academy/puppeteer-playwright/proxies.md): Understand how to use proxies in your Puppeteer and Playwright requests, as well as a couple of the most common use cases for proxies.
+    - [IV - Reading & intercepting requests](https://docs.apify.com/academy/puppeteer-playwright/reading-intercepting-requests.md): You can use DevTools, but did you know that you can do all the same stuff (plus more) programmatically? Read and intercept requests in Puppeteer/Playwright.
+  - [Tutorials on scraping with Python](https://docs.apify.com/academy/python.md): A collection of various Python tutorials to aid you in your journey to becoming a master web scraping and automation developer.
+  - [Run a web server on the Apify platform](https://docs.apify.com/academy/running-a-web-server.md): A web server running in an Actor can act as a communication channel with the outside world. Learn how to set one up with Node.js.
+  - [Web scraping basics for JavaScript devs](https://docs.apify.com/academy/scraping-basics-javascript.md): Learn how to use JavaScript to extract information from websites in this practical course, starting from the absolute basics.
+    - [Crawling websites with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/crawling.md): Lesson about building a Node.js application for watching prices. Using the Fetch API to follow links to individual product pages.
+    - [Extracting data from a web page with browser DevTools](https://docs.apify.com/academy/scraping-basics-javascript/devtools-extracting-data.md): Lesson about using the browser tools for developers to manually extract product data from an e-commerce website.
+    - [Inspecting web pages with browser DevTools](https://docs.apify.com/academy/scraping-basics-javascript/devtools-inspecting.md): Lesson about using the browser tools for developers to inspect and manipulate the structure of a website.
+    - [Locating HTML elements on a web page with browser DevTools](https://docs.apify.com/academy/scraping-basics-javascript/devtools-locating-elements.md): Lesson about using the browser tools for developers to manually find products on an e-commerce website.
+    - [Downloading HTML with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/downloading-html.md): Lesson about building a Node.js application for watching prices. Using the Fetch API to download HTML code of a product listing page.
+    - [Extracting data from HTML with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/extracting-data.md): Lesson about building a Node.js application for watching prices. Using string manipulation to extract and clean data scraped from the product listing page.
+    - [Using a scraping framework with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/framework.md): Lesson about building a Node.js application for watching prices. Using the Crawlee framework to simplify creating a scraper.
+    - [Getting links from HTML with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/getting-links.md): Lesson about building a Node.js application for watching prices. Using the Cheerio library to locate links to individual product pages.
+    - [Locating HTML elements with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/locating-elements.md): Lesson about building a Node.js application for watching prices. Using the Cheerio library to locate products on the product listing page.
+    - [Parsing HTML with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/parsing-html.md): Lesson about building a Node.js application for watching prices. Using the Cheerio library to parse HTML code of a product listing page.
+    - [Using a scraping platform with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/platform.md): Lesson about building a Node.js application for watching prices. Using the Apify platform to deploy a scraper.
+    - [Saving data with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/saving-data.md): Lesson about building a Node.js application for watching prices. Using the json2csv library to save data scraped from product listing pages in both JSON and CSV.
+    - [Scraping product variants with Node.js](https://docs.apify.com/academy/scraping-basics-javascript/scraping-variants.md): Lesson about building a Node.js application for watching prices. Using browser DevTools to figure out how to extract product variants and exporting them as separate items.
+  - [Web scraping basics for Python devs](https://docs.apify.com/academy/scraping-basics-python.md): Learn how to use Python to extract information from websites in this practical course, starting from the absolute basics.
+    - [Crawling websites with Python](https://docs.apify.com/academy/scraping-basics-python/crawling.md): Lesson about building a Python application for watching prices. Using the HTTPX library to follow links to individual product pages.
+    - [Extracting data from a web page with browser DevTools](https://docs.apify.com/academy/scraping-basics-python/devtools-extracting-data.md): Lesson about using the browser tools for developers to manually extract product data from an e-commerce website.
+    - [Inspecting web pages with browser DevTools](https://docs.apify.com/academy/scraping-basics-python/devtools-inspecting.md): Lesson about using the browser tools for developers to inspect and manipulate the structure of a website.
+    - [Locating HTML elements on a web page with browser DevTools](https://docs.apify.com/academy/scraping-basics-python/devtools-locating-elements.md): Lesson about using the browser tools for developers to manually find products on an e-commerce website.
+    - [Downloading HTML with Python](https://docs.apify.com/academy/scraping-basics-python/downloading-html.md): Lesson about building a Python application for watching prices. Using the HTTPX library to download HTML code of a product listing page.
+    - [Extracting data from HTML with Python](https://docs.apify.com/academy/scraping-basics-python/extracting-data.md): Lesson about building a Python application for watching prices. Using string manipulation to extract and clean data scraped from the product listing page.
+    - [Using a scraping framework with Python](https://docs.apify.com/academy/scraping-basics-python/framework.md): Lesson about building a Python application for watching prices. Using the Crawlee framework to simplify creating a scraper.
+    - [Getting links from HTML with Python](https://docs.apify.com/academy/scraping-basics-python/getting-links.md): Lesson about building a Python application for watching prices. Using the Beautiful Soup library to locate links to individual product pages.
+    - [Locating HTML elements with Python](https://docs.apify.com/academy/scraping-basics-python/locating-elements.md): Lesson about building a Python application for watching prices. Using the Beautiful Soup library to locate products on the product listing page.
+    - [Parsing HTML with Python](https://docs.apify.com/academy/scraping-basics-python/parsing-html.md): Lesson about building a Python application for watching prices. Using the Beautiful Soup library to parse HTML code of a product listing page.
+    - [Using a scraping platform with Python](https://docs.apify.com/academy/scraping-basics-python/platform.md): Lesson about building a Python application for watching prices. Using the Apify platform to deploy a scraper.
+    - [Saving data with Python](https://docs.apify.com/academy/scraping-basics-python/saving-data.md): Lesson about building a Python application for watching prices. Using standard library to save data scraped from product listing pages in popular formats such as CSV or JSON.
+    - [Scraping product variants with Python](https://docs.apify.com/academy/scraping-basics-python/scraping-variants.md): Lesson about building a Python application for watching prices. Using browser DevTools to figure out how to extract product variants and exporting them as separate items.
+  - [Scraping with Apify and AI](https://docs.apify.com/academy/scraping-with-apify-and-ai.md): Learn how to use AI to extract information from websites in this practical course, starting from the absolute basics.
+    - [Before publishing to Apify Store](https://docs.apify.com/academy/scraping-with-apify-and-ai/before-publishing-to-apify-store.md): Use AI to prepare your scraper for other users by improving its first-run experience, Apify Store listing, documentation, and maintenance plan.
+    - [Developing a scraper with AI agent](https://docs.apify.com/academy/scraping-with-apify-and-ai/developing-scraper-with-ai-agent.md): Improve your Apify scraper using the Cursor AI agent. Set up local development, clean up price data, and push changes back to the Apify platform.
+    - [Developing a scraper with AI chat](https://docs.apify.com/academy/scraping-with-apify-and-ai/developing-scraper-with-ai-chat.md): Use ChatGPT and Apify to build a price-tracking web scraper with no coding knowledge. Learn how AI-generated code runs automatically in the cloud.
+    - [Using docs as a spec for AI](https://docs.apify.com/academy/scraping-with-apify-and-ai/docs-driven-prompting.md): Improve your Apify scraper by documenting its behavior first and letting an AI agent follow the documentation as a practical spec.
+    - [Using examples as a spec for AI](https://docs.apify.com/academy/scraping-with-apify-and-ai/tests-driven-prompting.md): Improve your Apify scraper by adding automated tests with real-world examples that an AI agent can use as a spec.
+
+## Legal documents
+
+- [Apify Legal](https://docs.apify.com/legal.md): This is an index of Apify's public facing policies, terms of use and legal documents.
+  - [Apify Acceptable Use Policy](https://docs.apify.com/legal/acceptable-use-policy.md): Apify's acceptable use policy describes activities that are prohibited on the Apify platform and on our websites.
+  - [Actor Terms and Conditions](https://docs.apify.com/legal/actor-terms-and-conditions.md): Actor Terms and Conditions govern the use of Actors from Apify Store in connection with Apify platform.
+  - [Apify Affiliate Program Terms and Conditions](https://docs.apify.com/legal/affiliate-program-terms-and-conditions.md): Apify Affiliate Program Terms and Conditions govern Apify's affiliate partnership program.
+  - [Apify Community Code of Conduct](https://docs.apify.com/legal/community-code-of-conduct.md): Apify's code of conduct describes how Apify expects its community members behave.
+  - [Apify Cookie Policy](https://docs.apify.com/legal/cookie-policy.md): Apify Cookie Policy describes how we handle cookies on our website and platform.
+  - [EU Data Act Addendum](https://docs.apify.com/legal/data-act-addendum.md): EU Data Act Addendum applies to EU customers only.
+  - [Apify Data Processing Addendum](https://docs.apify.com/legal/data-processing-addendum.md): Apify Data Processing Addendum serve as a framework for processing of personal data on behalf of Apify customers.
+  - [Apify Event Terms and Conditions](https://docs.apify.com/legal/event-terms-and-conditions.md): Apify Event Terms and Conditions govern events organized by Apify.
+  - [Apify GDPR Information](https://docs.apify.com/legal/gdpr-information.md): This Apify GDPR Information document describes how Apify complies with GDPR and its requirements.
+  - [Apify General Terms and Conditions](https://docs.apify.com/legal/general-terms-and-conditions.md): Apify General Terms and Conditions govern the use of Apify's website, platform and services.
+  - [Apify Privacy Policy](https://docs.apify.com/legal/privacy-policy.md): Apify Privacy Policy describes how we handle your personal data and how you can exercise your personal data rights.
+  - [Standard Actor Contract](https://docs.apify.com/legal/standard-actor-contract.md): This Standard Actor Contract is a template provided by Apify for Creators who do not publish their own end-user terms.
+  - [Apify Store Publishing Terms and Conditions](https://docs.apify.com/legal/store-publishing-terms-and-conditions.md): Apify Store Publishing Terms and Conditions govern publishing of Actors in the Apify Store and payments for monetized Actors.
+  - [Apify Whistleblowing Policy](https://docs.apify.com/legal/whistleblowing-policy.md): Apify's whistleblowing policy describes how illegal activities can be reported, as required by law.
+
+## account
+
+- [Account](https://docs.apify.com/account.md): Manage your Apify account, billing, security, organization, and access permissions.
+  - [Apify AI](https://docs.apify.com/account/apify-ai.md): Apify AI is the conversational AI interface inside Apify Console for finding and running Actors using natural language, instead of keyword search.
+  - [Billing](https://docs.apify.com/account/billing.md): View invoices, track current billing cycle usage, manage subscriptions and limits, and review historical usage from the Billings page in Console.
+    - [Apply a promo code](https://docs.apify.com/account/billing/promo-codes.md): Learn how to apply a promo code to your invoice.
+  - [Collaboration](https://docs.apify.com/account/collaboration.md): Learn how to collaborate with other users and manage permissions for organizations or private resources such as Actors, Actor runs, and storages.
+    - [Grant access rights](https://docs.apify.com/account/collaboration/access-rights.md): Manage permissions for your private resources such as Actors, Actor runs, and storages. Allow other users to read, run, modify, or build new versions.
+    - [General resource access](https://docs.apify.com/account/collaboration/general-resource-access.md): Control how Apify resources are shared. Set default access to open ID-based access or restricted, and manage link sharing and pre-signed URLs.
+    - [List of permissions](https://docs.apify.com/account/collaboration/list-of-permissions.md): Learn about the access rights you can grant to other users. See all access options for Apify resources such as Actors, tasks, storage, and schedules.
+    - [Organization account](https://docs.apify.com/account/collaboration/organization.md): Create a specialized account for your organization to encourage collaboration and manage permissions. Convert an existing account, or create one from scratch.
+      - [Using the organization account](https://docs.apify.com/account/collaboration/organization/how-to-use.md): Learn to use and manage your organization account using Apify Console or the Apify API. View the organizations you are in and manage your memberships.
+      - [Setup](https://docs.apify.com/account/collaboration/organization/setup.md): Configure your organization account by inviting new members and assigning their roles. Manage team members' access permissions to the organization's resources.
+  - [Apify Console](https://docs.apify.com/account/console.md): Get started with Apify Console: create an account, sign in with email, Google, or GitHub, and manage your web scraping projects from one place.
+  - [Limits](https://docs.apify.com/account/limits.md): View default resource limits for the Apify platform, including max memory, disk size, and number of Actors and tasks per user per plan tier.
+  - [Account settings](https://docs.apify.com/account/settings.md): Learn how to manage your Apify account, configure integrations, create and manage organizations, and set notification preferences in the Settings tab.
+  - [Apify subscription plans](https://docs.apify.com/account/subscriptions.md): Learn which Apify plan best fits your needs, how to subscribe, and how usage limits and overage charges work when you exceed your prepaid usage.
+  - [Two-factor authentication](https://docs.apify.com/account/two-factor-authentication.md): Enable two-factor authentication on your Apify Console account using an authenticator app to add a second layer of security against unauthorized access.
+
+## actors
+
+- [Actors](https://docs.apify.com/actors.md): Learn how to develop, run and share serverless cloud programs. Create your own web scraping and automation tools and publish them on the Apify platform.
+  - [Develop Actors](https://docs.apify.com/actors/development.md): Read about the technical part of building Apify Actors. Learn to define Actor inputs, build new versions, persist Actor state, and choose base Docker images.
+    - [Actor definition](https://docs.apify.com/actors/development/actor-definition.md): Learn how to define an Actor by adding a .actor directory with actor.json, a Dockerfile, README, and input schema files to your source code.
+      - [Actor definition file (actor.json)](https://docs.apify.com/actors/development/actor-definition/actor-json.md): Configure your Actor using the .actor/actor.json file to define its name, version number, build tag, and links to input and output schema files.
+      - [Actor Dockerfile and base images](https://docs.apify.com/actors/development/actor-definition/dockerfile.md): Learn about Docker base images for Apify Actors and how to choose the right image based on your Actor's requirements and programming language.
+      - [Dynamic Actor memory](https://docs.apify.com/actors/development/actor-definition/dynamic-actor-memory.md): Automatically adjust your Actor memory allocation based on input size and run options to optimize performance and reduce costs on every run.
+      - [Actor input schema](https://docs.apify.com/actors/development/actor-definition/input-schema.md): Learn how to define and validate a schema for your Actor's input with code examples. Provide an autogenerated input UI for your Actor's users.
+        - [Custom error messages for Actor input](https://docs.apify.com/actors/development/actor-definition/input-schema/custom-error-messages.md): Learn how to define custom error messages for input validation in your Actor's input schema. Make validation feedback clearer and more user-friendly.
+        - [Actor secret input](https://docs.apify.com/actors/development/actor-definition/input-schema/secret-input.md): Mark Actor input fields as secret so their values are encrypted at rest and only decrypted inside the Actor run, protecting passwords and API tokens.
+        - [Actor input schema specification](https://docs.apify.com/actors/development/actor-definition/input-schema/specification/v1.md): Learn how to define and validate a schema for your Actor's input with code examples. Provide an autogenerated input UI for your Actor's users.
+      - [Actor output schema](https://docs.apify.com/actors/development/actor-definition/output-schema.md): Define an output schema to specify where your Actor stores its results and how Apify Console and the Actor run API endpoint display them to users.
+      - [Actor source code](https://docs.apify.com/actors/development/actor-definition/source-code.md): Learn how to organize and structure your Actor source code, including directory placement conventions, programming language choice, and Dockerfile setup.
+      - [Actor web server schema](https://docs.apify.com/actors/development/actor-definition/web-server-schema.md): Attach an OpenAPI specification to your Actor to enable the interactive Endpoints tab in Apify Console and Apify Store, where you can browse and test endpoints.
+    - [Automated tests for Actors](https://docs.apify.com/actors/development/automated-tests.md): Learn how to automate ongoing testing and make sure your Actors perform over time. See code examples for configuring the Actor Testing Actor.
+    - [Actor builds and runs](https://docs.apify.com/actors/development/builds-and-runs.md): Learn about Actor builds and runs, including how Docker images are created, how runs are executed, and their lifecycle on the Apify platform.
+      - [Actor builds](https://docs.apify.com/actors/development/builds-and-runs/builds.md): Learn about Actor build numbers, versioning, and how to use specific Actor version in runs. Understand an Actor's lifecycle and manage its cache.
+      - [Actor runs](https://docs.apify.com/actors/development/builds-and-runs/runs.md): Learn about Actor runs, how to start them via the console, API, or scheduler, and how to configure input, timeouts, and manage their lifecycle.
+      - [Actor state persistence](https://docs.apify.com/actors/development/builds-and-runs/state-persistence.md): Learn how to maintain an Actor's state to prevent data loss during unexpected restarts. Includes code examples for handling server migrations.
+    - [Debug Actors on the Apify platform](https://docs.apify.com/actors/development/debugging.md): Learn how to attach a debugger to an Actor run on the Apify platform, so you can set breakpoints and inspect variables in a run as it executes.
+    - [Actor deployment](https://docs.apify.com/actors/development/deployment.md): Learn how Actor deployment works. Keep your code on the Apify platform and deploy with the Apify CLI, or host it in Git and build on every push.
+      - [Continuous integration for Actors](https://docs.apify.com/actors/development/deployment/continuous-integration.md): Learn how to automate your development process. Configure automated builds, CI pipelines, or webhooks to push code, build Actors, and run tests.
+      - [Actor source types](https://docs.apify.com/actors/development/deployment/source-types.md): Learn about Actor source types - Web IDE, Git repository, Zip file, and GitHub Gist - and how to configure each one as your deployment method.
+    - [Actor performance](https://docs.apify.com/actors/development/performance.md): Learn how to maximize Actor performance by running batch jobs, leveraging Docker layer caching, and optimizing resource usage to reduce costs.
+    - [Actor permissions](https://docs.apify.com/actors/development/permissions.md): Learn how to declare and manage permissions for your Actor, what access levels mean, and how to build secure, trusted Actors for Apify users.
+      - [Migrate to limited Actor permissions](https://docs.apify.com/actors/development/permissions/migration-guide.md): Migrate your Actor to limited permissions using the latest Apify SDK, with step-by-step migration paths, code examples, and fixes for common issues.
+    - [Actor programming interface](https://docs.apify.com/actors/development/programming-interface.md): Learn about the programming interface of Apify Actors, important commands and features provided by the Apify SDK, and how to use them in your Actors.
+      - [Basic Actor commands](https://docs.apify.com/actors/development/programming-interface/basic-commands.md): Use the core Apify SDK commands in JavaScript and Python to initialize your Actor, read and write storage, and exit cleanly after execution.
+      - [Actor container web server](https://docs.apify.com/actors/development/programming-interface/container-web-server.md): Run a web server inside your Actor to expose a unique URL for external HTTP access, enabling both UI interaction and programmatic API calls.
+      - [Actor environment variables](https://docs.apify.com/actors/development/programming-interface/environment-variables.md): Learn how Actors receive runtime context from system environment variables set by the Apify platform and custom variables you define.
+      - [Metamorph](https://docs.apify.com/actors/development/programming-interface/metamorph.md): Use metamorph to transform an Actor run into another Actor with new input, preserving default storages and enabling seamless Actor chaining.
+      - [Develop Actors in Standby mode](https://docs.apify.com/actors/development/programming-interface/standby.md): Develop Actors that run a persistent HTTP server in Standby mode, enabling fast real-time API responses without restarting the Actor each time.
+      - [Actor status messages](https://docs.apify.com/actors/development/programming-interface/status-messages.md): Learn how to set custom status messages in your Actor to clearly inform users about its current progress and activity during an ongoing run.
+      - [System events in Apify Actors](https://docs.apify.com/actors/development/programming-interface/system-events.md): Learn how the Apify platform notifies Actors about system events such as migration, abort, and CPU overload, and how to handle them in your code.
+    - [Actor development quick start](https://docs.apify.com/actors/development/quick-start.md): Choose how to build your first Actor on Apify - local development with the CLI, the web IDE, AI-assisted coding, or building an AI agent on the platform.
+      - [Build Actors with AI](https://docs.apify.com/actors/development/quick-start/build-with-ai.md): Build new Actors or improve existing ones using AI coding tools by providing the right context, prompts, Agent Skills, and the Apify MCP server.
+      - [Develop AI agents on Apify](https://docs.apify.com/actors/development/quick-start/develop-ai-agents.md): Build and deploy AI agents on Apify with framework templates, sandboxes, OpenRouter for LLM access, and pay-per-event pricing.
+      - [Develop Actors locally](https://docs.apify.com/actors/development/quick-start/locally.md): Get started with the Apify CLI to develop Actors locally.
+      - [Develop Actors in the web IDE](https://docs.apify.com/actors/development/quick-start/web-ide.md): Create and run your first Actor using the web IDE in Apify Console, from writing your first lines of code to deploying it live in the cloud.
+    - [Set up Actor monetization](https://docs.apify.com/actors/monetize/set-up-monetization.md): Learn how to set up and change monetization for your Actor in Apify Console.
+  - [Publish Actors](https://docs.apify.com/actors/publishing.md): Learn the stages involved in publishing and monetizing Actors on the Apify platform, from development and testing to promotion in Apify Store.
+    - [Monitor your Actor's rating](https://docs.apify.com/actors/publishing/actor-rating.md): Learn how to monitor your Actor's rating and reviews in Apify Store.
+    - [Create an Actor README](https://docs.apify.com/actors/publishing/actor-readme.md): Learn how to create a README for your Actor.
+    - [Display Actor status](https://docs.apify.com/actors/publishing/actor-status.md): Learn how to add a status badge to your Actor's page in Apify Store.
+    - [Monetize Actors](https://docs.apify.com/actors/publishing/monetize.md): Monetize your Actors on Apify Store and earn regular passive income.
+      - [Manage payouts](https://docs.apify.com/actors/publishing/monetize/monthly-payouts.md): Learn about the monthly payouts and how to become eligible for them.
+      - [Pay-per-event pricing model](https://docs.apify.com/actors/publishing/monetize/pay-per-event.md): Learn how to monetize your Actor with pay-per-event (PPE) pricing, charging users for specific actions like Actor starts, dataset items, or API calls.
+      - [Actor pricing and costs](https://docs.apify.com/actors/publishing/monetize/pricing-and-costs.md): Learn how to set Actor pricing and calculate your costs, including platform usage rates, discount tiers, and profit formulas for the PPE model.
+      - [Tips for defining the Actor price](https://docs.apify.com/actors/publishing/monetize/pricing-tips.md): Learn how to price your Actor by comparing competing tools, accounting for the platform features, and adjusting the pricing based on conversion rates.
+      - [Actor rental pricing model](https://docs.apify.com/actors/publishing/monetize/rental.md): Learn how to monetize your Actor with the rental pricing model, offering a free trial and a flat monthly fee, and understand how profit is calculated.
+    - [Publish your Actor](https://docs.apify.com/actors/publishing/publish.md): Prepare your Actor for publication on Apify Store.
+    - [Publish your Actor task](https://docs.apify.com/actors/publishing/publish-task.md): Publish a saved Actor task as a landing page on Apify Store. Each published task is discoverable by search engines and AI agents.
+    - [Actor quality score](https://docs.apify.com/actors/publishing/quality-score.md): The Actor quality score reflects reliability, ease of use, and popularity on a scale of 0 to 100, and directly influences your visibility in Apify Store.
+    - [Actor status badge](https://docs.apify.com/actors/publishing/status-badge.md): Learn how to use the Actor status badge to show users the current status and usage information of your Actor on the Apify platform.
+    - [Actor testing in Apify Store](https://docs.apify.com/actors/publishing/test.md): Learn how the Apify QA system tests Actors, what causes an Actor to be flagged as under maintenance or deprecated, and how to restore a healthy status.
+  - [Run Actors](https://docs.apify.com/actors/running.md): Start an Actor from Apify Console or via API. Learn about Actor lifecycles, how to specify settings and version, provide input, and resurrect finished runs.
+    - [Actors in Store](https://docs.apify.com/actors/running/actors-in-store.md): Browse Apify Store to discover thousands of public Actors, understand their pricing models, and choose the right one for your automation needs.
+    - [Actor input and output](https://docs.apify.com/actors/running/input-and-output.md): Learn how Actors receive input and where they store their output, including the Actor output object and how to access run results from Apify Console or the API.
+    - [Actor and task monitoring](https://docs.apify.com/actors/running/monitoring.md): Learn how to make sure your Actors and tasks perform as expected and retrieve correct results. Get alerts when jobs or their metrics fall short.
+    - [Actor permissions](https://docs.apify.com/actors/running/permissions.md): Learn how Actor permissions work for running and building Actors: available permission levels, requesting and granting permissions, and security best practices.
+    - [Actor reviews](https://docs.apify.com/actors/running/reviews.md): Learn how to review and rate Actors in Apify Store.
+    - [Actor runs and builds](https://docs.apify.com/actors/running/runs-and-builds.md): Learn about Actor builds and runs, including their lifecycle, version tagging, storage assignment, sharing options, and data retention policy.
+    - [Actor and task schedules](https://docs.apify.com/actors/running/schedules.md): Learn how to automatically start your Actor and task runs and the basics of cron expressions. Set up and manage your schedules from Apify Console or via API.
+    - [Actor Standby mode](https://docs.apify.com/actors/running/standby.md): Use Actor Standby mode to keep an Actor ready in the background and serve real-time HTTP requests without waiting for a cold start each time.
+      - [Actor developers](https://docs.apify.com/actors/running/store/actor-developers.md): Learn about Apify-maintained and community-maintained Actors in Apify Store.
+    - [Actor tasks](https://docs.apify.com/actors/running/tasks.md): Create and save reusable configurations of Apify Actors for specific use cases, then run them on a schedule, via the API, or from the console.
+    - [Actor usage and resources](https://docs.apify.com/actors/running/usage-and-resources.md): Learn about memory and processing power requirements for Apify Actors, their relationship with Docker resources, and how resource allocation affects cost.
+
+## console
+
+  - [Apify Store](https://docs.apify.com/console/store.md): Browse thousands of pre-built Actors in Apify Store, filter by category or pricing, and run them immediately or save settings for later use.
+
+## get-started
+
+- [Get started](https://docs.apify.com/get-started.md): Learn how the Apify platform works - what Actors are, how they get to Apify Store, and how to start by running existing Actors or building your own.
+  - [Apify for AI agents](https://docs.apify.com/get-started/agent-onboarding.md): Connect your AI agent to the Apify platform - scrape the web, run Actors, and retrieve structured data via MCP, Agent Skills, client libraries, or the REST API.
+  - [Build Actors](https://docs.apify.com/get-started/build-actors.md): Build your own Actor on the Apify platform - create it from a template, understand the Actor model, deploy it, and publish it to Apify Store.
+  - [Run Actors](https://docs.apify.com/get-started/run-actors.md): Run existing Actors from Apify Store to get data or automate tasks with no code - pick an Actor, configure input, collect results, then automate.
+
+## integrations
+
+- [Integrations](https://docs.apify.com/integrations.md): Connect the Apify platform to external services, data pipelines, and automation workflows using APIs, webhooks, and third-party integrations.
+  - [Activepieces integration](https://docs.apify.com/integrations/activepieces.md): Connect Apify Actors with Activepieces to build automated flows that trigger on run events, retrieve data from storage, and start Actors from any trigger.
+  - [Actor-to-Actor integrations](https://docs.apify.com/integrations/actors.md): Learn how to connect Actors and tasks on the Apify platform using the integrations catalog in Apify Console to build automated multi-step workflows.
+    - [Integrate Actors via API](https://docs.apify.com/integrations/actors/integrating-actors-via-api.md): Use the Apify API to integrate Actors and tasks together using webhooks. Configure the required fields to display integrations in Apify Console.
+    - [Develop integration-ready Actors](https://docs.apify.com/integrations/actors/integration-ready-actors.md): Learn how to develop Actors that work cleanly as integration targets, including input design, payload handling, and dataset processing patterns.
+  - [Agno Integration](https://docs.apify.com/integrations/agno.md): Learn how to integrate Apify with Agno to power your AI agents with real-time web scraping and automation tools available in Apify Store.
+  - [AI integrations](https://docs.apify.com/integrations/ai.md): Use Apify Actors with AI providers like Anthropic Claude, OpenAI, and Google - via the Apify MCP server, agent SDKs, frameworks, and vector databases.
+  - [Airbyte integration](https://docs.apify.com/integrations/airbyte.md): Use the Airbyte Apify Dataset connector to move data from Apify datasets to any Airbyte-supported destination using pre-built open-source connectors.
+  - [Airtable integration](https://docs.apify.com/integrations/airtable.md): Automatically import items from any Apify dataset into Airtable using the Airtable Data Import Actor. Use standalone or in automated workflows.
+  - [Albato integration](https://docs.apify.com/integrations/albato.md): Connect Apify Actors to over 1,000 apps with Albato. Trigger workflows when Actor or task runs finish and automatically pass scraped data to any app.
+  - [Alibaba](https://docs.apify.com/integrations/alibaba.md): Use Apify Actors with Alibaba's Qoder and Qwen tools - install the Apify plugin in the Qoder CLI, IDE, Desktop app, or QoderWork, in Qwen Code, or in QwenWork.
+  - [API integration](https://docs.apify.com/integrations/api.md): Use the Apify REST API to control all platform features from your code. Authenticate with an API token and use official JavaScript or Python clients.
+  - [Amazon Bedrock integrations](https://docs.apify.com/integrations/aws_bedrock.md): Learn how to integrate Apify with Amazon Bedrock Agents to supply your AI agents with real-time web data using the RAG Web Browser Actor easily.
+  - [Bubble integration](https://docs.apify.com/integrations/bubble.md): Connect Apify Actors to your Bubble application using the Apify plugin to run web scraping jobs and display extracted data in your no-code app.
+  - [ChatGPT integration](https://docs.apify.com/integrations/chatgpt.md): Learn how to connect ChatGPT to the Apify MCP server to give your conversations access to real-time web data and Actor-powered automation tasks.
+  - [Claude](https://docs.apify.com/integrations/claude.md): Use Apify Actors with Anthropic Claude - connect the Apify MCP server to Claude Desktop, or install the Apify plugin for the Claude Code CLI.
+  - [Claude Code CLI integration](https://docs.apify.com/integrations/claude-code-cli.md): Learn how to install the Apify plugin for Claude Code CLI to discover, run, and build Actors with the Apify MCP server, skills, and a routing agent.
+  - [Claude Desktop integration](https://docs.apify.com/integrations/claude-desktop.md): Learn how to set up the Apify MCP server in Claude Desktop using the remote server or one-click connector install, and troubleshoot common issues.
+  - [Codex in the ChatGPT desktop app](https://docs.apify.com/integrations/codex-app.md): Learn how to install the Apify plugin for Codex to discover, run, and build Actors with the Apify MCP server and bundled skills for common workflows.
+  - [Codex CLI integration](https://docs.apify.com/integrations/codex-cli.md): Learn how to install the Apify plugin for Codex CLI to discover, run, and build Actors with the Apify MCP server and bundled skills for common workflows.
+  - [🤖🚀 CrewAI integration](https://docs.apify.com/integrations/crewai.md): Learn how to integrate Apify Actors with CrewAI to equip multi-agent AI crews with real-time web scraping and data extraction capabilities now.
+  - [Cursor integration](https://docs.apify.com/integrations/cursor.md): Learn how to install the Apify plugin for Cursor to discover, run, and build Actors directly with the Apify MCP server, skills, and a routing agent.
+  - [Data and storage](https://docs.apify.com/integrations/data-and-storage.md): Send Apify Actor output into data warehouses, structured stores, CRMs, and shared drives - Snowflake, Keboola, Airbyte, Airtable, HubSpot, and more.
+  - [Dify integration](https://docs.apify.com/integrations/dify.md): Connect Apify with Dify to automate workflows by running Actors, extracting data, and responding to Apify events.
+  - [Google Drive integration](https://docs.apify.com/integrations/drive.md): Automatically save Apify Actor run results to Google Drive. Set up the integration on an Actor or saved task to upload files after each successful run.
+  - [Flowise integration](https://docs.apify.com/integrations/flowise.md): Learn how to integrate Apify with Flowise to use Actors as data sources in customized LLM flows built with the open-source Flowise visual tool.
+  - [GitHub integration](https://docs.apify.com/integrations/github.md): Connect Apify with GitHub to build Actors from a repository, rebuild on every push, and create issues automatically when an Actor run fails.
+  - [GitHub Copilot](https://docs.apify.com/integrations/github-copilot.md): Use Apify Actors with GitHub Copilot - install the Apify plugin in the GitHub Copilot CLI or the GitHub Copilot desktop app to discover, run, and build Actors.
+  - [GitHub Copilot CLI integration](https://docs.apify.com/integrations/github-copilot-cli.md): Learn how to install the Apify plugin for the GitHub Copilot CLI to discover, run, and build Actors with the Apify MCP server, skills, and a routing agent.
+  - [GitHub Copilot desktop app integration](https://docs.apify.com/integrations/github-copilot-desktop.md): Learn how to install the Apify plugin in the GitHub Copilot desktop app to discover, run, and build Actors with the Apify MCP server and skills.
+  - [Gmail integration](https://docs.apify.com/integrations/gmail.md): Learn how to integrate Apify Actors with Gmail to send automated email notifications with Actor run results to any Gmail address you choose.
+  - [Google ADK integration](https://docs.apify.com/integrations/google-adk.md): Learn how to integrate Apify Actors as tools for AI agents built with Google Agent Development Kit to access real-time web scraping data and automation.
+  - [Gumloop integration](https://docs.apify.com/integrations/gumloop.md): Connect Apify Actors to Gumloop to retrieve data for AI-powered workflows using native MCP nodes for Instagram, Google Maps, TikTok, and YouTube.
+    - [Gumloop - Instagram Actor integration](https://docs.apify.com/integrations/gumloop/instagram.md): Use the Gumloop Instagram node powered by Apify to extract posts, comments, reels, stories, and profile data without managing API tokens or tasks.
+    - [Gumloop - Google maps Actor integration](https://docs.apify.com/integrations/gumloop/maps.md): Use the Gumloop Google Maps node powered by Apify to search places, get reviews, and extract business details without managing API keys or tasks.
+    - [Gumloop - TikTok Actor integration](https://docs.apify.com/integrations/gumloop/tiktok.md): Use the Gumloop TikTok node powered by Apify to extract videos, profile data, followers, and search results without managing API tokens or tasks.
+    - [Gumloop - YouTube Actor integration](https://docs.apify.com/integrations/gumloop/youtube.md): Use the Gumloop YouTube node powered by Apify to extract video details, channel data, playlists, and search results without managing API keys or tasks.
+  - [Haystack integration](https://docs.apify.com/integrations/haystack.md): Learn how to integrate Apify with Haystack to crawl websites, compute text embeddings, and build retrieval-augmented generation pipelines with ease.
+  - [Hermes Agent integration](https://docs.apify.com/integrations/hermes-agent.md): Learn how to integrate Apify with Hermes Agent to give your AI agent access to thousands of pre-built AI tools, called Actors, for scraping and automation.
+  - [HubSpot integration](https://docs.apify.com/integrations/hubspot.md): Enrich your HubSpot CRM with business contacts scraped from company websites using Apify's Contact Details Scraper, installed as a CRM card.
+  - [IFTTT integration](https://docs.apify.com/integrations/ifttt.md): Connect Apify Actors with IFTTT to build Applets that trigger on Actor run events, retrieve data from datasets, and start runs from any IFTTT trigger.
+  - [Integrate with Apify](https://docs.apify.com/integrations/integrate.md): Partner with Apify to build general or Actor-specific integrations that bring web scraping and automation data into your platform or service.
+  - [Keboola integration](https://docs.apify.com/integrations/keboola.md): Integrate Apify Actors with Keboola to extract data from various sources and load it into Keboola for processing, transformation, and further integration.
+  - [Kestra integration](https://docs.apify.com/integrations/kestra.md): Connect Apify with Kestra to orchestrate workflows declaratively in YAML - run Actors, extract structured data, and react to Actor or task events.
+  - [Kimi Code CLI integration](https://docs.apify.com/integrations/kimi-code-cli.md): Learn how to install the Apify plugin for Kimi Code CLI to discover, run, and build Actors with the Apify MCP server, bundled skills, and a router skill.
+  - [LangChain integration](https://docs.apify.com/integrations/langchain.md): Learn how to integrate Apify with LangChain to feed vector databases and large language models with web data crawled from the web using Actors.
+  - [LangChain ecosystem](https://docs.apify.com/integrations/langchain-ecosystem.md): Use Apify Actors across the LangChain ecosystem - wrap Actors as LangChain tools and document loaders, or bind them to stateful LangGraph agents.
+  - [Langflow integration](https://docs.apify.com/integrations/langflow.md): Learn how to integrate Apify with Langflow low-code tool to build powerful AI agents and workflows that can use any API, model, or database.
+  - [LangGraph integration](https://docs.apify.com/integrations/langgraph.md): Learn how to build stateful multi-agent AI workflows with LangGraph and Apify Actors to search, extract, and analyze real-time web data at scale.
+  - [Lindy integration](https://docs.apify.com/integrations/lindy.md): Learn how to integrate Apify with Lindy to run Actors inside AI-powered automation workflows and extract real-time web data without writing code.
+  - [LlamaIndex integration](https://docs.apify.com/integrations/llama-index.md): Learn how to integrate Apify with LlamaIndex to feed vector databases and large language models with web data crawled from the web using Actors.
+  - [Lovable integration](https://docs.apify.com/integrations/lovable.md): Connect Apify to Lovable to run Actors from the project chat and your published app, then read the scraped results from datasets and key-value stores.
+  - [Make integration](https://docs.apify.com/integrations/make.md): Connect Apify Actors to Make scenarios to run Actors, monitor run statuses, and receive Actor results directly inside your automated workflows.
+    - [Make - AI crawling Actor integration](https://docs.apify.com/integrations/make/ai-crawling.md): Use Apify Scraper for AI Crawling in Make to extract clean Markdown from websites and feed AI models, RAG pipelines, or LLM frameworks at scale.
+    - [Make - E-commerce Scraping Tool integration](https://docs.apify.com/integrations/make/e-commerce.md): Run the Apify E-commerce Scraping Tool in Make to extract product, review, seller, and marketplace data from retail sites and delivery platforms.
+    - [Make - LLMs Actor integration](https://docs.apify.com/integrations/make/llm.md): Use Apify Scraper for LLMs in Make to query Google Search, scrape top results, and return clean Markdown for AI assistants and RAG pipelines.
+  - [Manus integration](https://docs.apify.com/integrations/manus.md): Learn how to connect Manus to the Apify MCP server to give your agent sessions access to real-time web data and thousands of Actor-powered automation tools.
+  - [Mastra MCP integration](https://docs.apify.com/integrations/mastra.md): Learn how to build AI agents with Mastra and the Apify Actors MCP server to access web scraping and automation tools from any LLM you choose.
+  - [Apify MCP server](https://docs.apify.com/integrations/mcp.md): Learn how to use the Apify MCP server to integrate Apify's library of Actors into your AI agents or large language model-based applications.
+  - [MCP connectors](https://docs.apify.com/integrations/mcp-connectors.md): Use MCP connectors to let Apify Actors call third-party services through Model Context Protocol on your behalf, without exposing your credentials to Actor code.
+    - [Build Actors with MCP connectors](https://docs.apify.com/integrations/mcp-connectors/use-in-actors.md): Declare MCP connectors in your Actor input schema, connect to them from TypeScript or Python, and apply tool-permission constraints at runtime.
+  - [Milvus integration](https://docs.apify.com/integrations/milvus.md): Learn how to integrate Apify with Milvus to export Actor results and dataset items into a Milvus vector database collection for semantic search.
+  - [n8n integration](https://docs.apify.com/integrations/n8n.md): Connect Apify with n8n to automate workflows by running Actors, extracting structured data, and reacting to Actor or task run events in real time.
+    - [n8n - Website Content Crawler by Apify](https://docs.apify.com/integrations/n8n/website-content-crawler.md): Use the Website Content Crawler node in n8n to extract clean text and Markdown from websites and feed AI models, RAG pipelines, or LLM frameworks.
+  - [OpenAI](https://docs.apify.com/integrations/openai.md): Use Apify Actors with OpenAI - call scrapers and crawlers from ChatGPT, Codex, the OpenAI Agents SDK, and OpenAI Assistants to feed models live web data.
+  - [OpenAI Agents SDK integration](https://docs.apify.com/integrations/openai-agents.md): Learn how to integrate Apify with the OpenAI Agents SDK via the Apify MCP server to give your AI agents real-time web data and Actor access.
+  - [OpenAI Assistants integration](https://docs.apify.com/integrations/openai-assistants.md): Learn how to integrate Apify with OpenAI Assistants to provide real-time web search data and store scraped Actor results in OpenAI Vector Store.
+  - [OpenClaw integration](https://docs.apify.com/integrations/openclaw.md): Learn how to integrate Apify with OpenClaw to give your AI agents access to web scraping, data extraction, and automation using pre-built Actors.
+  - [OpenCode integration](https://docs.apify.com/integrations/opencode.md): Learn how to install the Apify plugin for OpenCode to discover, search, run, and build Actors with the Apify MCP server directly from your terminal.
+  - [Pinecone integration](https://docs.apify.com/integrations/pinecone.md): Learn how to integrate Apify with Pinecone to export Actor results and dataset items into a Pinecone vector index for AI-powered similarity search.
+  - [Pipedream integration](https://docs.apify.com/integrations/pipedream.md): Connect Apify with Pipedream to automate workflows by running Actors, managing storage, and reacting to Actor or task run events.
+  - [Microsoft Power Automate integration](https://docs.apify.com/integrations/power-automate.md): Learn how to integrate Apify Actors with Microsoft Power Automate to automate workflows, trigger scraping jobs, and process results without code.
+  - [Programming](https://docs.apify.com/integrations/programming.md): Integrate the Apify platform programmatically with the REST API, react to platform events through webhooks, and trigger Actors from your GitHub activity.
+  - [Qdrant integration](https://docs.apify.com/integrations/qdrant.md): Learn how to integrate Apify with Qdrant to export Actor results and dataset items into a Qdrant vector database collection for AI-powered search.
+  - [Qoder integration](https://docs.apify.com/integrations/qoder.md): Install the Apify plugin in the Qoder CLI, IDE, Desktop app, and QoderWork to run and build Actors with the Apify MCP server, skills, and a routing agent.
+  - [Qwen integration](https://docs.apify.com/integrations/qwen.md): Use Apify Actors with Alibaba's Qwen tools - install the Apify plugin in Qwen Code, or add the Apify MCP server and upload the skills in QwenWork.
+  - [Agentic payments with Skyfire](https://docs.apify.com/integrations/skyfire.md): Learn how to use agentic payments with Skyfire to enable AI agents to autonomously discover and run Apify Actors without an Apify user account.
+  - [Slack integration](https://docs.apify.com/integrations/slack.md): Learn how to integrate your Apify Actors with Slack, from installation through setting up notifications and running Actors directly from Slack.
+  - [Snowflake integration](https://docs.apify.com/integrations/snowflake.md): Use the Apify Snowflake Native App to run Actors and import dataset results directly into your Snowflake tables from within the Snowflake UI.
+  - [Strands Agents SDK integration](https://docs.apify.com/integrations/strands-agents.md): Integrate Apify with the Strands Agents SDK to give your AI agents web scraping, search, crawling, and social media capabilities through 18 prebuilt tools.
+  - [Telegram integration through Zapier](https://docs.apify.com/integrations/telegram.md): Learn how to integrate Apify Actors with Telegram through Zapier to automatically send Telegram messages with Actor run results and notifications.
+  - [Upsonic integration](https://docs.apify.com/integrations/upsonic.md): Learn how to integrate Apify Actors with Upsonic to give your AI agents real-time web scraping, data extraction, and automation capabilities from the Apify Store.
+  - [🔺 Vercel AI SDK integration](https://docs.apify.com/integrations/vercel-ai-sdk.md): Learn how to integrate Apify Actors as tools for AI agents built with Vercel AI SDK to access real-time web data in your TypeScript applications.
+  - [viaSocket integration](https://docs.apify.com/integrations/viasocket.md): Learn how to connect Apify with viaSocket, configure triggers, authenticate with API tokens, and build automation workflows across your apps.
+  - [VS Code integration](https://docs.apify.com/integrations/vscode.md): Learn how to install the Apify agent plugin in VS Code to discover, run, and build Actors with the Apify MCP server, bundled skills, and a routing agent.
+  - [Webhook integration](https://docs.apify.com/integrations/webhooks.md): Learn how to integrate multiple Apify Actors or external systems with your Actor or task run. Send alerts when your Actor run succeeds or fails.
+    - [Webhook actions](https://docs.apify.com/integrations/webhooks/actions.md): Configure webhook actions to send HTTP POST requests when Actor or task runs complete. Use payload templates to inject dynamic run data into the request.
+    - [Ad-hoc webhooks](https://docs.apify.com/integrations/webhooks/ad-hoc-webhooks.md): Set up one-time webhooks for Actor runs initiated through the Apify API or from the Actor's code. Trigger events when the run reaches a specific state.
+    - [Events types for webhooks](https://docs.apify.com/integrations/webhooks/events.md): Configure which event types trigger a webhook in an Actor or task run. Trigger actions on run creation, success, failure, termination, or timeout.
+  - [Windmill integration](https://docs.apify.com/integrations/windmill.md): Use Windmill to run Apify Actors and tasks, react to events via webhooks or polling, and move data between Apify and other services using scripts.
+  - [Workato integration](https://docs.apify.com/integrations/workato.md): Connect Apify Actors to Workato recipes to run web scraping jobs, monitor run events, and process results in automated workflows.
+  - [Workflows and notifications](https://docs.apify.com/integrations/workflows-and-notifications.md): Trigger Apify Actors from workflow platforms like n8n, Make, and Zapier, route results to Slack and email, and build no-code flows in Gumloop.
+  - [Agentic payments with x402 protocol](https://docs.apify.com/integrations/x402.md): Use the x402 protocol to enable AI agents to autonomously pay for Apify Actor runs using USDC on the Base blockchain - no Apify account required.
+  - [Zapier integration](https://docs.apify.com/integrations/zapier.md): Connect Apify Actors to Slack, Google Sheets, Salesforce, and more with Zapier. Trigger workflows when Actor or task runs finish and retrieve results.
+
+## proxy
+
+- [Proxy](https://docs.apify.com/proxy.md): Learn to anonymously access websites in scraping/automation jobs. Improve data outputs and efficiency of bots, and access websites from various geographies.
+  - [Datacenter proxy](https://docs.apify.com/proxy/datacenter-proxy.md): Learn how to reduce blocking when web scraping using IP address rotation. See proxy parameters and learn to implement Apify Proxy in an application.
+  - [Google SERP proxy](https://docs.apify.com/proxy/google-serp-proxy.md): Learn how to collect search results from Google Search-powered tools. Get search results from localized domains in multiple countries, e.g. the US and Germany.
+  - [Residential proxy](https://docs.apify.com/proxy/residential-proxy.md): Achieve a higher level of anonymity using IP addresses from human users. Access a wider pool of proxies and reduce blocking by websites' anti-scraping measures.
+  - [Unblocker](https://docs.apify.com/proxy/unblocker.md): Bypass anti-bot and anti-captcha systems automatically when scraping, without building or maintaining your own bypass logic for blocked websites.
+  - [Using your own proxies](https://docs.apify.com/proxy/using-your-own-proxies.md): Add your own proxy URLs to Actor runs in Apify Console or configure them in the Apify SDK using the proxy configuration API for JavaScript and Python.
+
+## security
+
+- [Security](https://docs.apify.com/security.md): Apify's security practices, compliance certifications, and vulnerability disclosure policy for protecting your Actors, data, and the platform.
+  - [Platform architecture](https://docs.apify.com/security/architecture.md): How the Apify platform is built - control and execution planes, what happens during an Actor run, how workloads stay isolated, and how storage works.
+  - [Shared responsibility model](https://docs.apify.com/security/shared-responsibility.md): How security responsibilities are divided between Apify and customers across the platform, your account, your Actors, and the data you collect.
+  - [Vulnerability disclosure policy](https://docs.apify.com/security/vulnerability-disclosure.md): Apify's vulnerability disclosure policy for the platform and open-source projects, including scope, testing guidelines, safe harbor, and how to report one.
+
+## storage
+
+- [Storage](https://docs.apify.com/storage.md): Store anything from images and key-value pairs to structured output data. Learn how to access and manage your stored data from the Apify platform or via API.
+  - [Dataset](https://docs.apify.com/storage/dataset.md): Store and export web scraping, crawling or data processing job results. Learn how to access and manage datasets in Apify Console or via API.
+  - [Dataset schema specification](https://docs.apify.com/storage/dataset-schema.md): Define a dataset schema to control how your Actor's results are structured, validated, and displayed in Apify Console, the API, and integrations.
+    - [Use multiple datasets](https://docs.apify.com/storage/dataset-schema/multiple-datasets.md): Define more than one dataset in your Actor, write to each from your code, and surface them on the run page so users can find the right output.
+    - [Validate dataset output](https://docs.apify.com/storage/dataset-schema/validation.md): Specify the dataset schema within your Actors to add monitoring and validation at the field level, ensuring data quality and consistency across runs.
+  - [Key-value store](https://docs.apify.com/storage/key-value-store.md): Store anything from Actor or task run results, JSON documents, or images. Learn how to access and manage key-value stores from Apify Console or via API.
+  - [Key-value store schema specification](https://docs.apify.com/storage/key-value-store-schema.md): Define a key-value store schema to organize records into collections with content type validation, making your Actor's key-value store easier to navigate.
+  - [Request queue](https://docs.apify.com/storage/request-queue.md): Queue URLs for an Actor to visit in its run. Add requests in batches, lock them across runs, and manage request queues from Apify Console or via API.
+  - [Share storage](https://docs.apify.com/storage/share.md): Grant access rights to your storages, share them by link using their ID or name, and generate time-limited pre-signed URLs for restricted resources.
+  - [Use storage from another run](https://docs.apify.com/storage/use-from-another-run.md): Open a dataset, key-value store, or request queue that belongs to another Actor or task run by its name or ID, from the SDK, API clients, or the API.

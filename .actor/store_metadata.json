@@ -1,0 +1,36 @@
+{
+  "title": "X (Twitter) Ads Scraper & Competitor Monitor",
+  "slug": "x-twitter-ads-scraper",
+  "seoDescription": "Inspect public EU-served X ads, compare competitor targeting and reach, monitor campaign changes, and download CSV, JSON, Excel and HTML reports.",
+  "keywords": [
+    "X",
+    "Twitter",
+    "ads library",
+    "ads transparency",
+    "competitor ads",
+    "DSA",
+    "X Ads Repository",
+    "ad monitoring",
+    "EU advertising",
+    "targeting",
+    "advertiser research",
+    "campaign changes",
+    "creative enrichment",
+    "CSV export",
+    "marketing intelligence"
+  ],
+  "categories": [
+    "Social media",
+    "Marketing"
+  ],
+  "recommendedRunOptions": {
+    "memoryMbytes": 1024,
+    "timeoutSecs": 3600
+  },
+  "suggestedPricing": {
+    "ad-result": 0.002,
+    "creative-enriched": 0,
+    "apify-actor-start": 0.05
+  },
+  "releaseStatus": "Live export/CSV and Store Console validation required before publication"
+}

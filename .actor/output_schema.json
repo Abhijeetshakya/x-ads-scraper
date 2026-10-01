@@ -1,0 +1,48 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "X ad results and reports",
+  "properties": {
+    "ads": {
+      "type": "string",
+      "title": "Ads dataset",
+      "description": "One result per ad and served country. Monitor mode contains campaign events only.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Summary",
+      "description": "Totals, source scope, query outcomes, schema drift, notifications and charged events.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/SUMMARY"
+    },
+    "errors": {
+      "type": "string",
+      "title": "Errors",
+      "description": "Failures and quarantined rows; never mixed into the ads dataset.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/ERRORS"
+    },
+    "csv": {
+      "type": "string",
+      "title": "CSV download",
+      "description": "UTF-8 BOM CSV; created when csv is selected.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/ads.csv"
+    },
+    "json": {
+      "type": "string",
+      "title": "JSON download",
+      "description": "Normalized emitted ads; created when json is selected.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/ads.json"
+    },
+    "xlsx": {
+      "type": "string",
+      "title": "Excel workbook",
+      "description": "Ads, Advertisers, Countries, Changes and Summary; created when xlsx is selected.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/ads.xlsx"
+    },
+    "html": {
+      "type": "string",
+      "title": "HTML report",
+      "description": "Self-contained summary/charts/search/sort table; created when html is selected.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/report.html"
+    }
+  }
+}
