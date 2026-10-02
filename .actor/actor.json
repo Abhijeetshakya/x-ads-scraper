@@ -1,6 +1,6 @@
 {
   "actorSpecification": 1,
-  "name": "x-twitter-ads-scraper",
+  "name": "x-ads-scraper",
   "title": "X (Twitter) Ads Scraper & Competitor Monitor",
   "description": "Extract publicly disclosed EU-served X ads, compare advertisers and countries, monitor material campaign changes, and export audit-friendly reports.",
   "version": "1.0",

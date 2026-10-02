@@ -7,6 +7,7 @@ import type { Logger, RecordData } from './types.js';
 import { record, sleep } from './util.js';
 
 export class SourceError extends Error {
+  retryAfterMs?: number;
   constructor(public code: string, message: string, public retryable = false, public status?: number) { super(message); this.name = code; }
 }
 export function retryAfter(value: string | null, now = Date.now()): number {

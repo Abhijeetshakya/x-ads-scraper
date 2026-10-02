@@ -1,5 +1,28 @@
 # X Ads Repository — investigation, 1 October 2026
 
+## Browser regression verification, 2 October 2026
+
+The failed Apify cloud run `dkODSei0bswAQguEG` resolved Nike as `415859364`
+and selected the browser adapter, then failed both date chunks with the generic
+`UI_QUERY_ERROR`. Inspection of the current anonymous page confirmed that the
+country label/caret are separate elements, checkbox labels have no fixed spacing,
+and the calendars use `role=gridcell` with date attributes rather than tables.
+Hidden adjacent-month cells duplicate visible date attributes. A query is sent
+only when Create report is clicked, not when calendar dates are selected.
+
+The adapter now handles these controls, matches the actual country/date scope,
+shares browser initialization between concurrent pages, and preserves failure
+details. Capacity errors retry in fresh pages: the site's export dialog can show
+a disabled Cancel button, making an in-place retry impossible.
+
+A real local Apify CLI run on Node 24, Nike/FR, 30 days, initially received HTTP
+503 from the public search service; its retry received HTTP 200 with an empty ads
+array and completed with one partial query. This verifies browser interaction and
+a successful empty source response, **not a nonempty live dataset or exhaustive
+coverage**. Seven synthetic browser regressions also verify date/country controls,
+concurrent queries, capacity failures, malformed responses, and CLI report output.
+No real CSV download/header or nonempty live payload is claimed here.
+
 ## Evidence and confidence
 
 Live public page: https://ads.x.com/ads-repository. Official help:

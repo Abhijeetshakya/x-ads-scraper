@@ -1,8 +1,9 @@
 import JSONbig from 'json-bigint';
-import { chromium, type Browser, type BrowserContext, type Page } from 'playwright';
-import { Http, SourceError } from '../http.js';
+import { existsSync } from 'node:fs';
+import { chromium, errors as playwrightErrors, type BrowserContext, type Page } from 'playwright';
+import { backoff, classify, Http, retryAfter, SourceError } from '../http.js';
 import type { Advertiser, Capabilities, Input, Logger, Query, QueryOutcome, RecordData, SearchResult, SourceAdapter } from '../types.js';
-import { addDays, deferred, record, str } from '../util.js';
+import { addDays, deferred, record, safeReason, sleep, str } from '../util.js';
 import type { Discovery } from './discovery.js';
 
 const region = new Intl.DisplayNames(['en'], { type: 'region' });
@@ -51,34 +52,45 @@ export class PublicUiHttp implements UiTransport {
 }
 /** Actual anonymous form interaction; captures only result bodies, never cookies or auth headers. */
 export class BrowserUi implements UiTransport {
-  private browser?: Browser;
-  private context?: BrowserContext;
-  constructor(private discovery: Discovery, private logger: Logger, private proxyUrl?: string) {}
+  private context?: Promise<BrowserContext>;
+  constructor(private discovery: Discovery, private logger: Logger, private proxyUrl?: string, private maxRetries = 3) {}
+  private async createContext(): Promise<BrowserContext> {
+    const channel = process.env.XADS_BROWSER_CHANNEL;
+    if (channel && channel !== 'chrome' && channel !== 'chromium') throw new SourceError('INVALID_BROWSER_CHANNEL', 'XADS_BROWSER_CHANNEL must be chrome or chromium.');
+    if (!channel && !existsSync(chromium.executablePath())) throw new SourceError('BROWSER_NOT_INSTALLED', 'Playwright Chromium is missing. Run npx playwright install --with-deps chromium, or set XADS_BROWSER_CHANNEL=chrome to use installed Google Chrome.');
+    const browser = await chromium.launch({ headless: true, ...(channel ? { channel } : {}), ...(this.proxyUrl ? { proxy: { server: this.proxyUrl } } : {}) });
+    try { return await browser.newContext({ locale: 'en-US', timezoneId: 'UTC' }); }
+    catch (e) { await browser.close(); throw e; }
+  }
   private async open(): Promise<Page> {
-    this.browser ??= await chromium.launch({ headless: true, ...(this.proxyUrl ? { proxy: { server: this.proxyUrl } } : {}) });
-    this.context ??= await this.browser.newContext({ locale: 'en-US', timezoneId: 'UTC' });
-    const page = await this.context.newPage();
-    // Tweets are enriched through public oEmbed, not by loading executable embed scripts.
-    await page.route('**/*', async route => {
-      const request = route.request();
-      if (['image', 'media', 'font'].includes(request.resourceType()) || request.url().includes('/embed/Tweet.html')) await route.abort();
-      else await route.continue();
-    });
-    await page.goto(this.discovery.pageUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-    const text = await page.locator('body').innerText();
-    if (/verify you are human|checking your browser|unusual traffic|automated traffic|captcha/i.test(text)) { await page.close(); throw new SourceError('PUBLIC_UI_CHALLENGE', 'Public repository asks for human verification. This Actor does not solve or bypass challenges.'); }
-    await page.getByRole('textbox').first().waitFor({ timeout: 45000 });
-    return page;
+    // Share the initialization promise so concurrent queries cannot launch orphan browsers.
+    this.context ??= this.createContext().catch(e => { this.context = undefined; throw e; });
+    const page = await (await this.context).newPage();
+    page.setDefaultTimeout(15000);
+    try {
+      // Tweets are enriched through public oEmbed, not by loading executable embed scripts.
+      await page.route('**/*', async route => {
+        const request = route.request();
+        if (['image', 'media', 'font'].includes(request.resourceType()) || request.url().includes('/embed/Tweet.html')) await route.abort();
+        else await route.continue();
+      });
+      await page.goto(this.discovery.pageUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
+      const text = await page.locator('body').innerText();
+      if (/verify you are human|checking your browser|unusual traffic|automated traffic|captcha/i.test(text)) throw new SourceError('PUBLIC_UI_CHALLENGE', 'Public repository asks for human verification. This Actor does not solve or bypass challenges.');
+      await page.getByRole('textbox').first().waitFor({ timeout: 45000 });
+      return page;
+    } catch (e) { await page.close(); throw e; }
   }
   async probe() {
     try { const page = await this.open(); await page.close(); return true; }
-    catch (e) { this.logger.warning('Anonymous browser probe unavailable.', { errorClass: e instanceof SourceError ? e.code : 'BROWSER_UNAVAILABLE' }); return false; }
+    catch (e) { this.logger.warning('Anonymous browser probe unavailable.', { errorClass: e instanceof SourceError ? e.code : 'BROWSER_UNAVAILABLE', ...(e instanceof SourceError ? { reason: e.message } : {}) }); return false; }
   }
   private async chooseAdvertiser(page: Page, handle: string): Promise<Advertiser> {
     const path = this.discovery.uiUserPath;
-    const response = page.waitForResponse(r => path ? new URL(r.url()).pathname === path : r.url().includes('/users/search.json'), { timeout: 45000 });
-    await page.getByRole('textbox').first().fill(handle);
-    const r = await response;
+    const [r] = await Promise.all([
+      page.waitForResponse(r => path ? new URL(r.url()).pathname === path : r.url().includes('/users/search.json'), { timeout: 45000 }),
+      page.getByRole('textbox').first().fill(handle),
+    ]);
     if (!r.ok()) throw new SourceError('PUBLIC_UI_SEARCH_FAILED', `Anonymous advertiser lookup returned HTTP ${r.status()}.`, r.status() === 429 || r.status() >= 500);
     const data: unknown = JSONbig({ storeAsString: true }).parse(await r.text());
     const found = Array.isArray(data) ? data.find(v => String(record(v).screen_name).toLowerCase() === handle.toLowerCase()) : data;
@@ -91,50 +103,90 @@ export class BrowserUi implements UiTransport {
     try { return await this.chooseAdvertiser(page, handle); } finally { await page.close(); }
   }
   async search(q: Query): Promise<RecordData> {
+    for (let attempt = 0; ; attempt++) {
+      try { return await this.searchOnce(q); }
+      catch (e) {
+        if (!(e instanceof SourceError) || e.code !== 'SOURCE_BUSY' || attempt >= this.maxRetries) throw e;
+        this.logger.warning('Public browser query temporarily unavailable; retrying in a fresh page.', { queryKey: q.key, status: e.status, attempt: attempt + 1 });
+        await sleep(Math.max(backoff(attempt), e.retryAfterMs ?? 0));
+      }
+    }
+  }
+  private async searchOnce(q: Query): Promise<RecordData> {
     const page = await this.open();
+    let stage = 'selecting the advertiser';
     try {
       if (!q.advertiser.handle) throw new SourceError('UI_NUMERIC_ID_NEEDS_EXPORT', 'The public UI requires a handle to select an account. For numeric-only advertisers use export mode with xBearerToken.');
+      if (BigInt(q.advertiser.userId) > BigInt(Number.MAX_SAFE_INTEGER)) throw new SourceError('UI_UNSAFE_ADVERTISER_ID', 'The public page rounds this advertiser ID. Use export mode with a permitted xBearerToken to preserve its identity.');
       await this.chooseAdvertiser(page, q.advertiser.handle);
-      const countryTrigger = page.getByText(new RegExp(`^(?:${this.discovery.countries.map(countryLabel).join('|')}|Entire EU) [▼▲]$`));
-      await countryTrigger.click();
-      const allSelected = page.getByRole('button', { name: /☑ Entire EU/ });
+      stage = 'selecting served countries';
+      // Labels and the caret are separate elements; checkbox glyphs have no fixed spacing.
+      await page.getByText('▼', { exact: true }).click();
+      const allSelected = page.getByRole('button', { name: /^☑\s*Entire EU$/ });
       if (await allSelected.count()) await allSelected.click();
       for (const code of this.discovery.countries) {
-        const selected = page.getByRole('button', { name: `☑ ${countryLabel(code)}`, exact: true });
+        const selected = page.getByRole('button', { name: new RegExp(`^☑\\s*${countryLabel(code)}$`) });
         if (await selected.count() && !q.countries.includes(code)) await selected.click();
       }
       for (const code of q.countries) {
-        const unchecked = page.getByRole('button', { name: `☐ ${countryLabel(code)}`, exact: true });
+        const unchecked = page.getByRole('button', { name: new RegExp(`^☐\\s*${countryLabel(code)}$`) });
         if (await unchecked.count()) await unchecked.click();
       }
-      await page.getByRole('heading', { name: 'Ads Repository', exact: true }).first().click();
-      const dateButton = page.getByRole('button', { name: /^(Today|Yesterday|Last 7 days|Last quarter|This year|\d{4}-\d{2}-\d{2}.*)$/ });
+      await page.getByText('▲', { exact: true }).click();
+      stage = 'selecting the date range';
+      const dateButton = page.getByRole('button', { name: /^(Today|Yesterday|Last 7 days|This quarter|Last quarter|This year|\d{4}-\d{2}-\d{2}.*)$/ });
       await dateButton.first().click();
       const selects = page.locator('select');
       if (await selects.count() !== 4) throw new SourceError('UI_SCHEMA_DRIFT', 'Anonymous UI date controls changed; select export mode or update the browser adapter.');
       const start = new Date(q.startDate); const end = new Date(q.endDate);
-      // Dropdown option labels are observed in the date picker; their values may change.
-      await selects.nth(1).selectOption({ label: String(start.getUTCFullYear()) });
-      await selects.nth(0).selectOption({ label: start.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' }) });
-      await selects.nth(3).selectOption({ label: String(end.getUTCFullYear()) });
-      await selects.nth(2).selectOption({ label: end.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' }) });
-      const response = page.waitForResponse(r => {
-        if (!this.discovery.uiSearchPath || new URL(r.url()).pathname !== this.discovery.uiSearchPath) return false;
-        try { const body = record(JSONbig({ storeAsString: true }).parse(r.request().postData() ?? '{}')); return String(body.userId) === q.advertiser.userId && body.startDate === q.startDate && body.endDate === addDays(q.endDate, 1) && JSON.stringify(body.countries) === JSON.stringify(q.countries); }
-        catch { return false; }
-      }, { timeout: 90000 });
-      const tables = page.getByRole('table');
-      await tables.nth(0).getByRole('cell', { name: String(start.getUTCDate()), exact: true }).click();
-      await tables.nth(start.getUTCMonth() === end.getUTCMonth() && start.getUTCFullYear() === end.getUTCFullYear() ? 0 : 1).getByRole('cell', { name: String(end.getUTCDate()), exact: true }).click();
-      const r = await response;
-      if (!r.ok()) throw new SourceError('PUBLIC_UI_QUERY_FAILED', `Anonymous UI query returned HTTP ${r.status()}.`, r.status() === 429 || r.status() >= 500);
-      const data = record(JSONbig({ storeAsString: true }).parse(await r.text()));
-      // The response belongs to a user-visible query; read a settled result heading as a UI check.
-      await page.getByText(/promoted tweets? found|No promoted tweets found/).first().waitFor({ timeout: 15000 });
-      return data;
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      const startMonth = q.startDate.slice(0, 7), endMonth = q.endDate.slice(0, 7);
+      const setMonth = async (side: number, date: Date) => {
+        await selects.nth(side * 2 + 1).selectOption({ label: String(date.getUTCFullYear()) });
+        await selects.nth(side * 2).selectOption({ label: date.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' }) });
+      };
+      // The two calendars must show distinct months. A range in the current month
+      // uses the right calendar; older single-month ranges use the left calendar.
+      if (startMonth === currentMonth) await setMonth(1, start);
+      else await setMonth(0, start);
+      if (endMonth !== startMonth) await setMonth(1, end);
+      // Adjacent-month cells can have the same date attributes but be hidden.
+      const dayCell = (date: Date) => page.locator(`[role="gridcell"][data-year="${date.getUTCFullYear()}"][data-month="${date.getUTCMonth()}"][data-day="${date.getUTCDate()}"]:visible`).first();
+      await dayCell(start).click();
+      await dayCell(end).click();
+      stage = 'submitting the report';
+      if (!this.discovery.uiSearchPath) throw new SourceError('UI_SERVICE_NOT_DISCOVERED', 'Public UI search service was not discovered.');
+      const [r] = await Promise.all([
+        page.waitForResponse(r => {
+          if (new URL(r.url()).pathname !== this.discovery.uiSearchPath || r.request().method() !== 'POST') return false;
+          try {
+            const body = record(JSONbig({ storeAsString: true }).parse(r.request().postData() ?? '{}'));
+            return String(body.userId) === q.advertiser.userId && body.startDate === q.startDate && body.endDate === addDays(q.endDate, 1)
+              && Array.isArray(body.countries) && JSON.stringify([...body.countries].sort()) === JSON.stringify([...q.countries].sort());
+          } catch { return false; }
+        }, { timeout: 90000 }),
+        page.getByRole('button', { name: 'Create report', exact: true }).click(),
+      ]);
+      const text = await r.text();
+      if (!r.ok()) {
+        const error = classify(r.status(), text);
+        error.retryAfterMs = retryAfter(r.headers()['retry-after'] ?? null);
+        throw error;
+      }
+      // X shows the same empty state on HTTP failure. Only valid response data
+      // counts; closing the page also cancels its unrelated export dialog.
+      try { return record(JSONbig({ storeAsString: true }).parse(text)); }
+      catch { throw new SourceError('INVALID_SOURCE_JSON', 'Public UI returned invalid JSON; query completeness cannot be established.'); }
+    } catch (e) {
+      if (e instanceof SourceError) throw e;
+      throw new SourceError(e instanceof playwrightErrors.TimeoutError ? 'UI_INTERACTION_TIMEOUT' : 'UI_INTERACTION_FAILED', `Public UI failed while ${stage}: ${safeReason(e)}`, e instanceof playwrightErrors.TimeoutError);
     } finally { await page.close(); }
   }
-  async close() { await this.context?.close(); await this.browser?.close(); }
+  async close() {
+    const context = await this.context?.catch(() => undefined);
+    const browser = context?.browser();
+    await context?.close(); await browser?.close(); this.context = undefined;
+  }
 }
 export class UiAdapter implements SourceAdapter {
   readonly name = 'ui';
@@ -171,7 +223,12 @@ export class UiAdapter implements SourceAdapter {
         if (!Array.isArray(data.ads) || data.errors || data.error) throw new SourceError('INVALID_UI_RESPONSE', 'UI result response lacks a valid ads array.');
         for (const row of data.ads) { rows++; yield record(row); }
         d.resolve(uiOutcome(data, rows));
-      } catch (e) { d.resolve({ status: rows ? 'partial' : 'failed', reason: e instanceof SourceError ? e.code : 'UI_QUERY_ERROR', retryable: e instanceof SourceError && e.retryable, rows }); }
+      } catch (e) {
+        const code = e instanceof SourceError ? e.code : 'UI_QUERY_ERROR';
+        const details = e instanceof SourceError ? e.message : 'Public UI query failed unexpectedly. Inspect the browser adapter and source availability.';
+        this.logger.warning('Public UI query did not complete.', { queryKey: query.key, errorClass: code, reason: details });
+        d.resolve({ status: rows ? 'partial' : 'failed', reason: code, details, retryable: e instanceof SourceError && e.retryable, rows });
+      }
     }).call(this);
     return { ads, outcome: d.promise };
   }

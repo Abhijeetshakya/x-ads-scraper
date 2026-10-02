@@ -1,0 +1,89 @@
+<!doctype html>
+<script src="/fixture.js"></script>
+<html lang="en"><head><meta charset="utf-8"></head><body>
+<h1>Ads Repository</h1>
+<input aria-label="Search for advertiser"><div id="user"></div>
+<div id="countryTrigger"><span id="countryLabel">France</span><span id="caret">▼</span></div>
+<div id="countries" hidden></div>
+<button id="date">Today</button><div id="picker" hidden></div>
+<button id="report">Create report</button><div id="result"></div><div id="dialog" hidden><button id="cancel">Cancel</button></div>
+<script>
+// Synthetic interaction fixture following the live public controls observed on
+// 2026-10-02. There are gridcells, no tables, and separately rendered caret/labels.
+const countryNames = { AT: 'Austria', BE: 'Belgium', FR: 'France', CZ: 'Czech Republic' };
+let selected = ['FR'], rangeStart, rangeEnd, selectingEnd = false;
+const today = new Date();
+let left = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - 1, 1));
+let right = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
+const months = Array.from({ length: 12 }, (_, i) => new Date(Date.UTC(2026, i, 1)).toLocaleString('en-US', { month: 'short', timeZone: 'UTC' }));
+document.querySelector('input').oninput = async e => {
+  const response = await fetch('/ads-repository/api/user-search', { method: 'POST', body: JSON.stringify({ screenName: e.target.value }) });
+  const user = await response.json();
+  const button = document.createElement('button'); button.textContent = '@' + user.screen_name;
+  button.onclick = () => { document.querySelector('#user').textContent = button.textContent; };
+  document.querySelector('#user').replaceChildren(button);
+};
+function renderCountries() {
+  const container = document.querySelector('#countries'); container.replaceChildren();
+  for (const [code, name] of [['EU', 'Entire EU'], ...Object.entries(countryNames)]) {
+    const checked = code === 'EU' ? selected.length === Object.keys(countryNames).length : selected.includes(code);
+    const button = document.createElement('button');
+    const glyph = document.createElement('span'); glyph.textContent = checked ? '☑' : '☐';
+    const label = document.createElement('span'); label.textContent = name; button.append(glyph, label);
+    button.onclick = () => {
+      if (code === 'EU') selected = checked ? [] : Object.keys(countryNames);
+      else selected = checked ? selected.filter(c => c !== code) : [...selected, code];
+      document.querySelector('#countryLabel').textContent = selected.length === 1 ? countryNames[selected[0]] : 'Multiple regions';
+      renderCountries();
+    }; container.append(button);
+  }
+}
+document.querySelector('#countryTrigger').onclick = () => {
+  const container = document.querySelector('#countries'); container.hidden = !container.hidden;
+  document.querySelector('#caret').textContent = container.hidden ? '▼' : '▲'; renderCountries();
+};
+function renderPicker() {
+  const picker = document.querySelector('#picker'); picker.replaceChildren();
+  const grids = [];
+  for (const [side, month] of [[0, left], [1, right]]) {
+    const monthSelect = document.createElement('select'), yearSelect = document.createElement('select');
+    for (let i = 0; i < 12; i++) {
+      if (side === 0 && month.getUTCFullYear() === right.getUTCFullYear() && i >= right.getUTCMonth()) continue;
+      if (side === 1 && month.getUTCFullYear() === left.getUTCFullYear() && i <= left.getUTCMonth()) continue;
+      if (month.getUTCFullYear() === today.getUTCFullYear() && i > today.getUTCMonth()) continue;
+      monthSelect.add(new Option(months[i], String(i)));
+    }
+    monthSelect.value = String(month.getUTCMonth());
+    for (let year = side === 0 ? 2023 : left.getUTCFullYear(); year <= today.getUTCFullYear(); year++) yearSelect.add(new Option(String(year)));
+    yearSelect.value = String(month.getUTCFullYear());
+    monthSelect.onchange = () => { month.setUTCMonth(Number(monthSelect.value)); renderPicker(); };
+    yearSelect.onchange = () => { month.setUTCFullYear(Number(yearSelect.value)); renderPicker(); };
+    picker.append(monthSelect, yearSelect);
+    const grid = document.createElement('div'); grid.setAttribute('role', 'grid');
+    const days = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth() + 1, 0)).getUTCDate();
+    for (let day = 1; day <= days; day++) {
+      const cell = document.createElement('div'); cell.setAttribute('role', 'gridcell'); cell.tabIndex = 0;
+      cell.dataset.year = String(month.getUTCFullYear()); cell.dataset.month = String(month.getUTCMonth()); cell.dataset.day = String(day); cell.textContent = String(day);
+      cell.onclick = () => {
+        const value = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth(), day)).toISOString().slice(0, 10);
+        if (!selectingEnd) { rangeStart = value; selectingEnd = true; }
+        else { rangeEnd = value; selectingEnd = false; picker.hidden = true; document.querySelector('#date').textContent = rangeStart + ' – ' + rangeEnd; }
+      }; grid.append(cell);
+    }
+    // The real calendar includes hidden spillover cells before visible cells.
+    const spillover = document.createElement('div'); spillover.hidden = true;
+    spillover.setAttribute('role', 'gridcell'); spillover.dataset.year = String(right.getUTCFullYear()); spillover.dataset.month = String(right.getUTCMonth()); spillover.dataset.day = '1'; grid.append(spillover);
+    grids.push(grid);
+  } picker.append(...grids);
+}
+document.querySelector('#date').onclick = () => { document.querySelector('#picker').hidden = false; renderPicker(); };
+document.querySelector('#report').onclick = async () => {
+  const end = new Date(rangeEnd); end.setUTCDate(end.getUTCDate() + 1);
+  const response = await fetch('/ads-repository/api/ads-search', { method: 'POST', body: JSON.stringify({ userId: 415859364, countries: selected, startDate: rangeStart, endDate: end.toISOString().slice(0, 10) }) });
+  const data = await response.json();
+  document.querySelector('#result').textContent = response.ok && data.ads?.length ? data.ads.length + ' promoted tweets found' : 'No promoted tweets found';
+  document.querySelector('#dialog').hidden = false;
+};
+document.querySelector('#cancel').onclick = () => { document.querySelector('#dialog').hidden = true; };
+</script>
+</body></html>

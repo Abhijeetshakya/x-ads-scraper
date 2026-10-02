@@ -65,7 +65,7 @@ export async function runPipeline(raw: Partial<Input>, hooks: PipelineHooks = {}
     }
     await store.setValue('SOURCE_CAPABILITIES', { ...discovery, operations: { create: !!discovery.operations.create, status: !!discovery.operations.status }, verifiedAt: new Date().toISOString() });
     const api = new ApiAdapter();
-    ui = new UiAdapter(input, new PublicUiHttp(http, discovery, input.advertisers.find(a => !/^\d+$/.test(a)) ?? ''), new BrowserUi(discovery, log, proxyUrl), log);
+    ui = new UiAdapter(input, new PublicUiHttp(http, discovery, input.advertisers.find(a => !/^\d+$/.test(a)) ?? ''), new BrowserUi(discovery, log, proxyUrl, input.maxRetries), log);
     let uiProbed = false;
     const resolve = async (value: string): Promise<Advertiser> => {
       if (/^\d+$/.test(value)) return { userId: value, handle: null, name: null, profileUrl: null };
@@ -128,7 +128,7 @@ export async function runPipeline(raw: Partial<Input>, hooks: PipelineHooks = {}
       if ((badRows || drift) && outcome.status === 'complete') { outcome.status = 'partial'; outcome.reason = badRows ? 'QUARANTINED_ROWS' : 'SCHEMA_DRIFT'; }
       const job = progress.jobs[query.key] ??= { pages: 0 };
       job.outcome = outcome;
-      if (outcome.status !== 'complete') errors.push({ queryKey: query.key, advertiser: query.advertiser.userId, countries: query.countries, chunk: [query.startDate, query.endDate], errorClass: outcome.reason ?? 'PARTIAL_QUERY', reason: `Source query ${outcome.status}; ${outcome.rows} raw rows.`, retryable: outcome.retryable ?? false });
+      if (outcome.status !== 'complete') errors.push({ queryKey: query.key, advertiser: query.advertiser.userId, countries: query.countries, chunk: [query.startDate, query.endDate], errorClass: outcome.reason ?? 'PARTIAL_QUERY', reason: outcome.details ?? `Source query ${outcome.status}; ${outcome.rows} raw rows.`, retryable: outcome.retryable ?? false });
       await persist(); await persistErrors();
       await store.setValue('SCHEMA_DRIFT_WARNINGS', [...tracker.warnings]);
       for (const country of query.countries) log.info('Advertiser × country query finished.', { advertiser: query.advertiser.userId, country, chunk: [query.startDate, query.endDate], status: outcome.status, rows: outcome.rows });
@@ -156,7 +156,10 @@ export async function runPipeline(raw: Partial<Input>, hooks: PipelineHooks = {}
     if (Array.isArray(summary.errors)) errors.splice(0, errors.length, ...summary.errors as RunError[]);
     await persistErrors();
     await Actor.setStatusMessage(`Done: ${index.emittedCount()} ads, ${failedQueries} queries failed, ${summary.partialQueries} partial.`);
-    if (!queries.length || queries.every(q => progress.jobs[q.key]?.outcome?.status === 'failed')) throw new SourceError('ALL_QUERIES_FAILED', 'Every source query failed (or no advertiser could be resolved). Inspect ERRORS and SOURCE_NOTES; no failure rows were written.');
+    if (!queries.length || queries.every(q => progress.jobs[q.key]?.outcome?.status === 'failed')) {
+      const causes = [...new Set(errors.map(e => `${e.errorClass}: ${e.reason}`))].slice(0, 3).join(' ');
+      throw new SourceError('ALL_QUERIES_FAILED', `Every source query failed (or no advertiser could be resolved). ${causes} Inspect the ERRORS record for details.`);
+    }
     return summary;
   } catch (e) {
     if (!errors.length) errors.push({ queryKey: null, advertiser: null, countries: input.countries, chunk: [input.startDate, input.endDate], errorClass: e instanceof SourceError ? e.code : 'RUN_SETUP_FAILED', reason: e instanceof SourceError ? e.message : 'Run setup/validation failed. Inspect the run log.', retryable: e instanceof SourceError && e.retryable });

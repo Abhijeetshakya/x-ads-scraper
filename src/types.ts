@@ -22,7 +22,7 @@ export interface Query {
 }
 export interface QueryOutcome {
   status: 'complete' | 'partial' | 'failed'; reason: string | null;
-  rows: number; retryable?: boolean;
+  rows: number; retryable?: boolean; details?: string;
 }
 export interface SearchResult {
   ads: AsyncIterable<RecordData>;
