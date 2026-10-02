@@ -55,6 +55,7 @@ export async function runPipeline(raw: Partial<Input>, hooks: PipelineHooks = {}
   const tracker = new SchemaTracker(log);
   for (const warning of await store.getValue<string[]>('SCHEMA_DRIFT_WARNINGS') ?? []) tracker.warnings.add(warning);
   let queries: Query[] = [];
+  let finalSummary: Record<string, unknown> | undefined;
   try {
     await Actor.setStatusMessage('Probing the public X Ads Repository…');
     try { discovery = await discover(http, log, base); }
@@ -75,10 +76,10 @@ export async function runPipeline(raw: Partial<Input>, hooks: PipelineHooks = {}
     const exp = new ExportAdapter(http, input, discovery, progress, persist, resolve, log, testBase ?? 'https://api.x.com');
     if (input.sourceMode === 'api') { if (!await api.probe()) throw new SourceError('API_NOT_DOCUMENTED', 'The new official repository API is not verified/documented. Use auto, export or ui.'); adapter = api; }
     else if (input.sourceMode === 'export') adapter = exp;
+    else if (input.sourceMode === 'auto' && await exp.probe()) adapter = exp;
     else {
       if (await api.probe()) adapter = api;
       else if (await ui.probe()) { adapter = ui; uiProbed = true; }
-      else if (input.sourceMode === 'auto' && await exp.probe()) adapter = exp;
       else throw new SourceError('NO_WORKING_SOURCE', 'Neither anonymous UI nor a permitted export source is available. Supply xBearerToken and numeric advertiser IDs for export, or retry public access later.');
     }
     log.info('Selected source adapter.', { adapter: adapter.name });
@@ -145,26 +146,32 @@ export async function runPipeline(raw: Partial<Input>, hooks: PipelineHooks = {}
     if (stopping) return;
     progress.phases.outputDone = true; await persist();
     const failedQueries = queries.filter(q => progress.jobs[q.key]?.outcome?.status === 'failed').length + errors.filter(e => !e.queryKey).length;
-    const summary: Record<string, unknown> = { totalAds: index.emittedCount(), adapterUsed: adapter.name, queriesPlanned: queries.length,
+    const rawRows = queries.reduce((count, q) => count + (progress.jobs[q.key]?.outcome?.rows ?? 0), 0);
+    const normalizedAds = Number(index.db.prepare('SELECT COUNT(*) AS n FROM ads').get()!.n);
+    const summary: Record<string, unknown> = { totalAds: index.emittedCount(), rawRows, normalizedAds, adapterUsed: adapter.name, queriesPlanned: queries.length,
       completeQueries: queries.filter(q => progress.jobs[q.key]?.outcome?.status === 'complete').length,
       partialQueries: queries.filter(q => progress.jobs[q.key]?.outcome?.status === 'partial').length,
       failedQueries, errors, schemaDriftWarnings: [...tracker.warnings], runDurationSeconds: (Date.now() - started) / 1000,
       chargedEvents: progress.charged, notificationStatus: [], sourceScope: { countries: input.countries, countriesVerified: discovery.countriesVerified, startDate: input.startDate, endDate: input.endDate },
     };
+    finalSummary = summary;
+    summary.dataStatus = rawRows ? 'rows_received' : summary.completeQueries === queries.length && queries.length ? 'verified_empty' : 'unverified_empty';
     if (hooks.finalize) await hooks.finalize(index, input, store, summary, http);
     await store.setValue('SUMMARY', summary);
     if (Array.isArray(summary.errors)) errors.splice(0, errors.length, ...summary.errors as RunError[]);
     await persistErrors();
-    await Actor.setStatusMessage(`Done: ${index.emittedCount()} ads, ${failedQueries} queries failed, ${summary.partialQueries} partial.`);
     if (!queries.length || queries.every(q => progress.jobs[q.key]?.outcome?.status === 'failed')) {
       const causes = [...new Set(errors.map(e => `${e.errorClass}: ${e.reason}`))].slice(0, 3).join(' ');
       throw new SourceError('ALL_QUERIES_FAILED', `Every source query failed (or no advertiser could be resolved). ${causes} Inspect the ERRORS record for details.`);
     }
+    if (summary.dataStatus === 'unverified_empty' && index.emittedCount() === 0) throw new SourceError('NO_VERIFIED_AD_DATA', 'X returned no ad rows and no query established complete coverage. This is not a verified zero-ad result. Inspect ERRORS; retry source failures or use the documented CSV export with a permitted xBearerToken.');
+    if (rawRows > 0 && normalizedAds === 0) throw new SourceError('ALL_ROWS_QUARANTINED', 'X returned rows, but none had a valid ad identity in the requested scope. Inspect ERRORS for schema or country mismatches.');
+    await Actor.setStatusMessage(`Done: ${index.emittedCount()} ads, ${failedQueries} queries failed, ${summary.partialQueries} partial.`);
     return summary;
   } catch (e) {
     if (!errors.length) errors.push({ queryKey: null, advertiser: null, countries: input.countries, chunk: [input.startDate, input.endDate], errorClass: e instanceof SourceError ? e.code : 'RUN_SETUP_FAILED', reason: e instanceof SourceError ? e.message : 'Run setup/validation failed. Inspect the run log.', retryable: e instanceof SourceError && e.retryable });
     await persistErrors();
-    await store.setValue('SUMMARY', { totalAds: index.emittedCount(), adapterUsed: adapter?.name ?? null, failedQueries: errors.length, errors, schemaDriftWarnings: [...tracker.warnings], status: 'failed', runDurationSeconds: (Date.now() - started) / 1000 });
+    await store.setValue('SUMMARY', { ...finalSummary, totalAds: index.emittedCount(), adapterUsed: adapter?.name ?? null, failedQueries: finalSummary?.failedQueries ?? errors.length, errors, schemaDriftWarnings: [...tracker.warnings], status: 'failed', failure: { errorClass: e instanceof SourceError ? e.code : 'RUN_SETUP_FAILED', reason: e instanceof SourceError ? e.message : 'Run setup/validation failed. Inspect the run log.' }, runDurationSeconds: (Date.now() - started) / 1000 });
     throw e;
   } finally { await persist(); await adapter?.close(); if (ui !== adapter) await ui?.close(); await http.close(); index.close(); Actor.off('persistState', persist); }
 }

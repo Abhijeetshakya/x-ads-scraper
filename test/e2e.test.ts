@@ -26,6 +26,17 @@ it('runs through apify run with mocked HTTP and resumes without duplicate rows o
   } finally { await server.close(); }
 }, 90000);
 
+it('prefers the documented CSV export in auto mode when a permitted bearer token is configured', async () => {
+  const server = await sourceServer(); const directory = await mkdtemp(join(tmpdir(), 'xads-auto-export-'));
+  const input = { advertisers: ['Nike'], countries: ['FR'], startDate: '2026-09-01', endDate: '2026-09-30', sourceMode: 'auto', xBearerToken: 'mock-only', requestDelayMs: 0, enrichCreatives: false, keywordFields: ['advertiser'], exportFormats: [] };
+  try {
+    const run = await localRun(server.url, directory, input); expect(run.code, run.output).toBe(0);
+    const summary = JSON.parse(await readFile(join(directory, 'key_value_stores/default/SUMMARY.json'), 'utf8'));
+    expect(summary).toMatchObject({ adapterUsed: 'export', totalAds: 2, rawRows: 3, normalizedAds: 2, completeQueries: 1 });
+    expect(server.submissions()).toBe(1); expect(run.output).not.toContain('mock-only');
+  } finally { await server.close(); }
+}, 60000);
+
 it('demonstrates persistent monitor runs: new, unchanged, changed and grace-period removal', async () => {
   const server = await sourceServer(); const directory = await mkdtemp(join(tmpdir(), 'xads-monitor-e2e-'));
   const original = await readFile(new URL('./fixtures/ads.csv', import.meta.url), 'utf8');

@@ -13,12 +13,13 @@ import { logger } from './mock.js';
 const requests: RecordData[] = [];
 let failures = 0;
 let status = 200;
+let mismatchScope = false;
 let payload: RecordData = { ads: [{ tweetId: '1346889436626259968', lineItemId: 'line-1', country: 'FR', impressions: 10, reach: 8, approvalStatus: 'Verified' }] };
 let browser: BrowserUi;
 let discovery: Discovery;
 const fixture = await readFile(new URL('./fixtures/public-ui.html', import.meta.url), 'utf8');
 const server = createServer(async (req, res) => {
-  if (req.url === '/ads-repository') { res.setHeader('content-type', 'text/html'); res.end(fixture); return; }
+  if (req.url === '/ads-repository') { res.setHeader('content-type', 'text/html'); res.end(mismatchScope ? fixture.replace('endDate: end.toISOString().slice(0, 10)', 'endDate: rangeEnd') : fixture); return; }
   if (req.url === '/fixture.js') {
     res.setHeader('content-type', 'application/javascript');
     res.end('var Y={Austria:"AT",Belgium:"BE",France:"FR",CzechRepublic:"CZ"}; Object.freeze([{displayValue:"Austria",systemValue:Y.Austria},{displayValue:"Belgium",systemValue:Y.Belgium},{displayValue:"France",systemValue:Y.France},{displayValue:"Czech Republic",systemValue:Y.CzechRepublic}]); new Date("2023-08-26"); "/ads-repository/api/user-search"; "/ads-repository/api/ads-search";'); return;
@@ -67,6 +68,30 @@ it('persists the upstream error through Apify CLI instead of claiming a successf
     expect(errors[0]).toMatchObject({ errorClass: 'SOURCE_BUSY', retryable: true, reason: expect.stringContaining('503') });
   } finally { status = 200; }
 }, 60000);
+it('fails an unverified empty UI response and preserves query counts and report metadata', async () => {
+  const original = payload; payload = { ads: [] };
+  try {
+    const run = await runCli(); expect(run.code).not.toBe(0);
+    expect(run.output).toContain('not a verified zero-ad result');
+    expect(run.summary).toMatchObject({ totalAds: 0, rawRows: 0, normalizedAds: 0, partialQueries: 1, failedQueries: 0, dataStatus: 'unverified_empty', status: 'failed', failure: { errorClass: 'NO_VERIFIED_AD_DATA' } });
+    expect(run.summary.exports).toEqual(['ads.csv', 'ads.json', 'ads.xlsx', 'report.html']);
+  } finally { payload = original; }
+}, 60000);
+it('fails when source rows are all quarantined rather than reporting successful empty output', async () => {
+  const original = payload; payload = { ads: [{ country: 'FR', impressions: 10 }] };
+  try {
+    const run = await runCli(); expect(run.code).not.toBe(0);
+    expect(run.summary).toMatchObject({ totalAds: 0, rawRows: 1, normalizedAds: 0, failure: { errorClass: 'ALL_ROWS_QUARANTINED' } });
+    expect(run.summary.errors[0].errorClass).toBe('MISSING_OR_INVALID_AD_IDENTITY');
+  } finally { payload = original; }
+}, 60000);
+it('allows a verified empty source response without confusing it with a source failure', async () => {
+  const original = payload; payload = { ads: [], complete: true };
+  try {
+    const run = await runCli(); expect(run.code, run.output).toBe(0);
+    expect(run.summary).toMatchObject({ totalAds: 0, rawRows: 0, completeQueries: 1, failedQueries: 0, dataStatus: 'verified_empty' });
+  } finally { payload = original; }
+}, 60000);
 afterAll(async () => { await browser?.close(); await new Promise<void>(resolve => server.close(() => resolve())); });
 const query = (startDate: string, endDate: string, countries = ['FR']): Query => ({ key: `${startDate}|${countries.join()}`, advertiser: { userId: '415859364', handle: 'Nike', name: 'Nike', profileUrl: 'https://x.com/Nike' }, countries, startDate, endDate, keywords: [], targetedLocations: [] });
 
@@ -74,6 +99,11 @@ it('submits exact multi-country scope and exclusive end through the actual brows
   const data = await browser.search(query('2025-12-03', '2026-01-07', ['BE', 'CZ']));
   expect(data.ads).toHaveLength(1);
   expect(requests.at(-1)).toEqual({ userId: 415859364, countries: ['BE', 'CZ'], startDate: '2025-12-03', endDate: '2026-01-08' });
+}, 30000);
+it('reports a changed page query scope immediately instead of silently waiting for a response it discarded', async () => {
+  mismatchScope = true;
+  try { await expect(browser.search(query('2025-09-01', '2025-09-02'))).rejects.toMatchObject({ code: 'UI_QUERY_SCOPE_MISMATCH', message: expect.stringContaining('2025-09-02') }); }
+  finally { mismatchScope = false; }
 }, 30000);
 it('handles single-month and same-day ranges, including the current month', async () => {
   const month = new Date().toISOString().slice(0, 7);

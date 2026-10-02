@@ -21,7 +21,7 @@ array and completed with one partial query. This verifies browser interaction an
 a successful empty source response, **not a nonempty live dataset or exhaustive
 coverage**. Seven synthetic browser regressions also verify date/country controls,
 concurrent queries, capacity failures, malformed responses, and CLI report output.
-No real CSV download/header or nonempty live payload is claimed here.
+This was the earlier verification; see the subsequent empty-output investigation below.
 
 ## Evidence and confidence
 
@@ -31,8 +31,7 @@ The investigation used anonymous browser interaction, public page assets, ordina
 HTTP, and the official documentation. No account, cookie export, application token
 extraction, CAPTCHA solving, or Ads Manager access was used. Evidence collected
 earlier in this conversation survived as observations; a scratch environment reset
-discarded the pending anonymous export before it could be downloaded. Therefore
-**no real CSV header or successful export download has been verified**.
+discarded the pending anonymous export before it could be downloaded. The subsequent investigation below obtained an anonymous CSV download.
 
 Apify documentation was read before implementation: `llms.txt`, `agents.md`, input
 schema v1, dataset schema, output schema, key-value stores, and pay-per-event.
@@ -126,8 +125,8 @@ from bundles, cookies, headers or another session.
 After an environment reset, direct unauthenticated POST requests to both public UI
 services returned HTTP 403. This does not establish a bot block or a required login.
 HTTP UI transport must be opt-in through `enablePublicUiTransport`; auto probes
-it only when enabled, then falls back to the anonymous browser and, when a token
-is supplied, the documented export flow. A 403 is never interpreted as an empty
+it only when enabled, then falls back to the anonymous browser. When a permitted
+token and export operations are configured, auto mode prefers the documented export flow. A 403 is never interpreted as an empty
 successful query. Responses with an ambiguous completeness contract are partial
 and cannot trigger removal notifications.
 
@@ -142,7 +141,7 @@ the calendar uses an exclusive end boundary. The Actor treats user endDate as
 inclusive and submits the next UTC day for UI search; export date semantics must
 be confirmed with a known ad and are reported in provenance.
 
-## CSV schema: unverified, no invented "real headers"
+## CSV schema: nonempty rows remain unverified
 
 Official help confirms advertiser, funding entity, main targeting, impressions,
 reach and halted ads. Supplied hypotheses additionally mention tweet, line-item,
@@ -192,3 +191,28 @@ unavailable without an explicitly implemented, documented client.
 ## Implemented live smoke result
 
 The opt-in Node/Apify run on 1 October 2026 successfully discovered the EU27, current operation definitions and same-origin service paths from the live public assets. Public HTTP probing failed; Chromium was unavailable after browser-install downloads failed. The run exited 91 (NO_WORKING_SOURCE). No nonempty payload or CSV was obtained. This failure is retained as a release gate, not turned into a passing fixture smoke.
+
+## Empty-output investigation, 2 October 2026
+
+Cloud run `d5gcVGGmdt99dISOD` received no raw source rows: one query was
+partial without a completeness guarantee; the other timed out after source
+capacity errors. Its “All supported” market preset overrode `countries: ["brazil"]`
+and selected EU countries. The empty dataset was not caused by output filtering.
+
+Independent anonymous browser probes returned HTTP 503 for Nike and HTTP 200
+with `{"ads":[]}` for Microsoft (France, September 2026). A separate Nike/France
+“Last quarter” official CSV report finished after about 271 seconds and downloaded
+a header-only file. Its actual headers were:
+
+```text
+Advertiser Name,Funding Entity,Creative,Start date,End Date,Targeted Segments,Excluded Targeting Segments,Impressions,Reach,Facts And Circumstances Of Removal,Enforcement Action,Statement Of Reason
+```
+
+This proves that one official export was empty; it does not prove that all
+requested countries and date chunks contain no ads. Nonempty live rows and their
+identity fields still need validation. The actor now fails an entirely empty run
+when no query verifies coverage (`NO_VERIFIED_AD_DATA`), preserves the diagnostic
+summary and reports, and fails if every received row is quarantined. Verified
+empty responses remain successful. Scope mismatches are reported directly.
+All 37 automated tests pass, including 11 browser/CLI regressions; their nonempty
+rows remain explicitly synthetic.

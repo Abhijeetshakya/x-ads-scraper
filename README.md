@@ -29,7 +29,7 @@ Edit `example-input.json` with your advertisers, countries and dates, then run:
 APIFY_CLI_DISABLE_TELEMETRY=1 DISABLE_METERING=1 npx apify run --purge --input-file example-input.json
 ```
 
-Use `sourceMode: "export"` with a permitted developer `xBearerToken` for CSV exports. Keep credentials in secret inputs.
+Use `sourceMode: "export"` with a permitted developer `xBearerToken` for CSV exports. Auto mode also prefers this export when configured. Keep credentials in secret inputs.
 
 If Chromium cannot be downloaded locally and Google Chrome is already installed,
 prefix the run command with `XADS_BROWSER_CHANNEL=chrome`. The cloud Docker image
@@ -41,7 +41,9 @@ report. Temporary 429/5xx errors are retried up to `maxRetries`, using a fresh p
 because the export dialog can disable its Cancel button. Failed queries retain
 their cause in the log and `ERRORS`; an HTTP error never becomes an empty success.
 Successful UI responses without an explicit completeness guarantee remain partial,
-including empty arrays, and cannot establish campaign removals.
+and cannot establish campaign removals. If every query returns no rows without
+verified coverage, the run fails with `NO_VERIFIED_AD_DATA`. `SUMMARY` retains
+`rawRows`, `normalizedAds`, query counts and report metadata for diagnosis.
 
 On Apify, start with **1 GB memory** and a **one-hour timeout**.
 
@@ -71,7 +73,8 @@ page; live extraction is tested separately with `RUN_LIVE_TESTS=1 npm run test:l
 - EU-served ads only; no global ads library or spend data.
 - Advertisers are required for keyword filtering.
 - Missing fields remain `null` with a reason.
-- Live CSV headers, cloud execution and Console rendering remain unverified.
+- Cloud execution and an anonymous CSV download have been verified, but no nonempty live dataset has been captured.
+- The saved preset overrides explicit countries; “All supported” selects EU countries, including when Brazil is entered.
 - Public HTTP access may fail; the official repository API adapter is currently a stub.
 
 Use only permitted public data and comply with X's terms and applicable law. This project is not affiliated with X.

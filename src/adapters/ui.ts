@@ -158,15 +158,16 @@ export class BrowserUi implements UiTransport {
       if (!this.discovery.uiSearchPath) throw new SourceError('UI_SERVICE_NOT_DISCOVERED', 'Public UI search service was not discovered.');
       const [r] = await Promise.all([
         page.waitForResponse(r => {
-          if (new URL(r.url()).pathname !== this.discovery.uiSearchPath || r.request().method() !== 'POST') return false;
-          try {
-            const body = record(JSONbig({ storeAsString: true }).parse(r.request().postData() ?? '{}'));
-            return String(body.userId) === q.advertiser.userId && body.startDate === q.startDate && body.endDate === addDays(q.endDate, 1)
-              && Array.isArray(body.countries) && JSON.stringify([...body.countries].sort()) === JSON.stringify([...q.countries].sort());
-          } catch { return false; }
+          return new URL(r.url()).pathname === this.discovery.uiSearchPath && r.request().method() === 'POST';
         }, { timeout: 90000 }),
         page.getByRole('button', { name: 'Create report', exact: true }).click(),
       ]);
+      const body = record(JSONbig({ storeAsString: true }).parse(r.request().postData() ?? '{}'));
+      if (String(body.userId) !== q.advertiser.userId || body.startDate !== q.startDate || body.endDate !== addDays(q.endDate, 1)
+        || !Array.isArray(body.countries) || JSON.stringify([...body.countries].sort()) !== JSON.stringify([...q.countries].sort())) {
+        const actual = { userId: body.userId, countries: body.countries, startDate: body.startDate, endDate: body.endDate };
+        throw new SourceError('UI_QUERY_SCOPE_MISMATCH', `The public page submitted a different scope: ${JSON.stringify(actual)}. No mismatched rows were accepted.`);
+      }
       const text = await r.text();
       if (!r.ok()) {
         const error = classify(r.status(), text);
@@ -221,6 +222,7 @@ export class UiAdapter implements SourceAdapter {
           data = await this.browserTransport.search(query);
         }
         if (!Array.isArray(data.ads) || data.errors || data.error) throw new SourceError('INVALID_UI_RESPONSE', 'UI result response lacks a valid ads array.');
+        this.logger.info('Public UI response received.', { queryKey: query.key, rawRows: data.ads.length, completenessVerified: data.complete === true || data.isComplete === true });
         for (const row of data.ads) { rows++; yield record(row); }
         d.resolve(uiOutcome(data, rows));
       } catch (e) {
