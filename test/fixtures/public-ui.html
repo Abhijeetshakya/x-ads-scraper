@@ -12,6 +12,7 @@
 // 2026-10-02. There are gridcells, no tables, and separately rendered caret/labels.
 const countryNames = { AT: 'Austria', BE: 'Belgium', FR: 'France', CZ: 'Czech Republic' };
 let selected = ['FR'], rangeStart, rangeEnd, selectingEnd = false;
+localStorage.setItem('countries', JSON.stringify(selected));
 const today = new Date();
 let left = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - 1, 1));
 let right = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
@@ -33,6 +34,7 @@ function renderCountries() {
     button.onclick = () => {
       if (code === 'EU') selected = checked ? [] : Object.keys(countryNames);
       else selected = checked ? selected.filter(c => c !== code) : [...selected, code];
+      localStorage.setItem('countries', JSON.stringify(selected));
       document.querySelector('#countryLabel').textContent = selected.length === 1 ? countryNames[selected[0]] : 'Multiple regions';
       renderCountries();
     }; container.append(button);
@@ -67,7 +69,7 @@ function renderPicker() {
       cell.onclick = () => {
         const value = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth(), day)).toISOString().slice(0, 10);
         if (!selectingEnd) { rangeStart = value; selectingEnd = true; }
-        else { rangeEnd = value; selectingEnd = false; picker.hidden = true; document.querySelector('#date').textContent = rangeStart + ' – ' + rangeEnd; }
+        else { selectingEnd = false; picker.hidden = true; setTimeout(() => { rangeEnd = value; localStorage.setItem('range', JSON.stringify([rangeStart, rangeEnd])); document.querySelector('#date').textContent = rangeStart === today.toISOString().slice(0, 10) && rangeEnd === rangeStart ? 'Today' : rangeStart + ' – ' + rangeEnd; }, 300); }
       }; grid.append(cell);
     }
     // The real calendar includes hidden spillover cells before visible cells.
@@ -78,6 +80,9 @@ function renderPicker() {
 }
 document.querySelector('#date').onclick = () => { document.querySelector('#picker').hidden = false; renderPicker(); };
 document.querySelector('#report').onclick = async () => {
+  const storedRange = JSON.parse(localStorage.getItem('range'));
+  [rangeStart, rangeEnd] = storedRange;
+  selected = JSON.parse(localStorage.getItem('countries'));
   const end = new Date(rangeEnd); end.setUTCDate(end.getUTCDate() + 1);
   const response = await fetch('/ads-repository/api/ads-search', { method: 'POST', body: JSON.stringify({ userId: 415859364, countries: selected, startDate: rangeStart, endDate: end.toISOString().slice(0, 10) }) });
   const data = await response.json();

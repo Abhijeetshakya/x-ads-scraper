@@ -216,3 +216,18 @@ summary and reports, and fails if every received row is quarantined. Verified
 empty responses remain successful. Scope mismatches are reported directly.
 All 37 automated tests pass, including 11 browser/CLI regressions; their nonempty
 rows remain explicitly synthetic.
+
+## Concurrent browser scope correction, 2 October 2026
+
+Cloud build `Hqqauzh6Xd9FzwqHr` reported `UI_QUERY_SCOPE_MISMATCH`: the
+July–October query submitted the current-day scope. Concurrent live queries
+reproduced interference in a shared browser context, including country changes.
+Each page now has an isolated context/storage while sharing browser startup.
+The adapter also waits for the committed date label (including Today/Yesterday
+preset labels) before submitting. The synthetic fixture persists filters in
+localStorage and delays date commits so its concurrent tests cover this behavior.
+
+A live concurrent retest of Nike/EU for July 4–October 1 and October 2 validated
+both exact request scopes; both subsequently returned HTTP 503 from X. This
+fixes the observed scope mismatch, but does not restore an unavailable source
+or establish any nonempty live ad data.

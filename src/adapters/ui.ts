@@ -65,7 +65,12 @@ export class BrowserUi implements UiTransport {
   private async open(): Promise<Page> {
     // Share the initialization promise so concurrent queries cannot launch orphan browsers.
     this.context ??= this.createContext().catch(e => { this.context = undefined; throw e; });
-    const page = await (await this.context).newPage();
+    // The repository persists filters in browser storage. Concurrent pages must
+    // not share that storage or one query can submit another page's scope.
+    const browser = (await this.context).browser()!;
+    const isolated = await browser.newContext({ locale: 'en-US', timezoneId: 'UTC' });
+    const page = await isolated.newPage();
+    page.once('close', () => { void isolated.close().catch(() => undefined); });
     page.setDefaultTimeout(15000);
     try {
       // Tweets are enriched through public oEmbed, not by loading executable embed scripts.
@@ -154,6 +159,15 @@ export class BrowserUi implements UiTransport {
       const dayCell = (date: Date) => page.locator(`[role="gridcell"][data-year="${date.getUTCFullYear()}"][data-month="${date.getUTCMonth()}"][data-day="${date.getUTCDate()}"]:visible`).first();
       await dayCell(start).click();
       await dayCell(end).click();
+      // A gridcell click can finish before the page commits its selected range.
+      // Wait for the committed control value before Create report reads it.
+      stage = 'waiting for the selected date range to be committed';
+      let committedRange = page.getByRole('button', { name: `${q.startDate} – ${q.endDate}`, exact: true });
+      const today = new Date().toISOString().slice(0, 10);
+      // X renders recognized one-day ranges using their preset label.
+      if (q.startDate === q.endDate && q.endDate === today) committedRange = committedRange.or(page.getByRole('button', { name: 'Today', exact: true }));
+      if (q.startDate === q.endDate && q.endDate === addDays(today, -1)) committedRange = committedRange.or(page.getByRole('button', { name: 'Yesterday', exact: true }));
+      await committedRange.first().waitFor({ timeout: 15000 });
       stage = 'submitting the report';
       if (!this.discovery.uiSearchPath) throw new SourceError('UI_SERVICE_NOT_DISCOVERED', 'Public UI search service was not discovered.');
       const [r] = await Promise.all([
